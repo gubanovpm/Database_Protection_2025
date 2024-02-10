@@ -12,7 +12,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y texlive-full biber vim
+        sudo apt-get install -y texlive-full biber vim libfontconfig1 
 
     - name: Compile LaTeX document
       run: |
