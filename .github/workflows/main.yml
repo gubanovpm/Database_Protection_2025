@@ -9,14 +9,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y texlive-full biber vim libfontconfig1 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
-    - name: Compile LaTeX document
+    - name: Build Docker image and generate PDF
       run: |
-        latexmk -pdf db.tex
+        make docker_actions
 
     - name: Commit PDF
       run: |
