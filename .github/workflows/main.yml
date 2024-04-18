@@ -1,8 +1,12 @@
 name: Build LaTeX document
-on: [push]
+on:
+  push:
+    branches:
+      master
 
 jobs:
-  build:
+  if_merged:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -14,7 +18,7 @@ jobs:
 
     - name: Build Docker image and generate PDF
       run: |
-        make docker_actions
+        make docker
 
     - name: Commit PDF
       run: |
