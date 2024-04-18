@@ -2,7 +2,9 @@ name: Build LaTeX document
 on:
   push:
     branches: master
-    pathes: '**/*.tex'
+    paths:
+      - '**/*.tex'
+      - './*.tex'
 
 
 jobs:
