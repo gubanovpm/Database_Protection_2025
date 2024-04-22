@@ -1,0 +1,31 @@
+name: Create a release
+on:
+  push:
+    branches: master
+    paths:
+      - '**/*.tex'
+      - './*.tex'
+
+jobs:
+  release:
+    name: Create a release
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker image and generate PDF
+      run: |
+        make docker
+    - name: Make a release
+      uses: "actions/create-release@v1"
+      env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          release_name: Rolling release [${{ github.ref }}]
+          body: |
+            Release update after source modification.

@@ -18,6 +18,3 @@ docker_build:
 
 docker: docker_build
 	docker run --volume $(PWD):/data --rm --name latex_doc latex_img
-
-docker_test: docker_build
-	docker run --volume $(PWD):/data --rm --interactive --name latex_doc latex_img /bin/bash
