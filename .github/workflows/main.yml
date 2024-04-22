@@ -1,5 +1,11 @@
 name: Build LaTeX document
-on: [push]
+on:
+  push:
+    branches: master
+    paths:
+      - '**/*.tex'
+      - './*.tex'
+
 
 jobs:
   build:
@@ -14,7 +20,7 @@ jobs:
 
     - name: Build Docker image and generate PDF
       run: |
-        make docker_actions
+        make docker
 
     - name: Commit PDF
       run: |
