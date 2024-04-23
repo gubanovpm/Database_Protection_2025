@@ -5,6 +5,8 @@ on:
     paths:
       - '**/*.tex'
       - './*.tex'
+      - 'Makefile'
+      - 'Dockerfile'
 
 jobs:
   build:
