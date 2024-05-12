@@ -1,6 +1,6 @@
 PWD := $(shell pwd)
 
-all: build run
+all: build run clean
 
 build:
 	latexmk -pdf db.tex
