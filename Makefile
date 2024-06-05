@@ -1,13 +1,17 @@
 PWD := $(shell pwd)
+tex_files := $(shell find -type f -name '*.tex' -or -name '*.bib')
 
 all: build run clean
 
-build:
+db.pdf: $(tex_files)
 	latexmk -pdf db.tex
-run:
+
+build: db.pdf
+
+run: build
 	evince db.pdf &
 
-clean:
+clean: db.pdf
 	rm -f *.aux *.fdb_latexmk *.fls *.log *.out *.synctex.gz *.toc *.bbl *bcf *.blg *.xml *.snm *.nav
 
 docker_clean:
