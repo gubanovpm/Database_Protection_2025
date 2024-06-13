@@ -11,7 +11,7 @@ build: db.pdf
 run: build
 	evince db.pdf &
 
-clean: db.pdf
+clean:
 	rm -f *.aux *.fdb_latexmk *.fls *.log *.out *.synctex.gz *.toc *.bbl *bcf *.blg *.xml *.snm *.nav
 
 docker_clean:
