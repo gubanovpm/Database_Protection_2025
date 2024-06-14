@@ -6,4 +6,4 @@
 !Dockerfile
 !/part/
 !/.github/
-.DS_Store
+**/.DS_Store
