@@ -148,7 +148,7 @@ Access List для пользователей, имеющих доступ к т
     \centering
     \includegraphics[width=0.8\textwidth]{assets/security/kernel.png}
     \caption{Ядерная архитектура}
-    \label{fig:mesh1}
+    \label{fig:mesh01}
 \end{figure}
 На картинке изображена Ядерная архитектура, в которой одна РСУБД связана с уровнем безопасности «Высокий»,
 а другая РСУБД связана с уровнем безопасности «Низкий».
@@ -193,7 +193,7 @@ Access List для пользователей, имеющих доступ к т
     \centering
     \includegraphics[width=0.8\textwidth]{assets/security/trusted.png}
     \caption{архитектура TrustedSubjects}
-    \label{fig:mesh1}
+    \label{fig:mesh02}
 \end{figure}
 
 \subsection{Проектирование безопасных БД}
@@ -292,7 +292,7 @@ Access List для пользователей, имеющих доступ к т
     \centering
     \includegraphics[width=0.8\textwidth]{assets/security/pic1.png}
     \caption{Стадии жизненного цикла по DoD}
-    \label{fig:mesh1}
+    \label{fig:mesh03}
 \end{figure}
 
 Как показано на рис. 6, основная часть жизненного цикла информационной системы включает пять этапов: работа
@@ -516,14 +516,14 @@ Access List для пользователей, имеющих доступ к т
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic2.png}
         \caption{Пример ER-модели предметной области БАНК}
-        \label{fig:mesh1}
+        \label{fig:mesh04}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic3.png}
         \caption{Наборы атрибутов сущностей предметной области БАНК}
-        \label{fig:mesh1}
+        \label{fig:mesh05}
     \end{figure}
 
     Для связи типа 1:1 существуют три отдельных правила формирования предварительных таблиц из ER-диаграмм.
@@ -539,7 +539,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=100mm]{assets/security/pic4.png}
-        \label{fig:mesh1}
+        \label{fig:mesh06}
     \end{figure}
 
     Первичным ключом этой таблицы может быть и первичный ключ сущности МЕНЕДЖЕР – НМ.
@@ -558,7 +558,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=100mm]{assets/security/pic5.png}
-        \label{fig:mesh1}
+        \label{fig:mesh07}
     \end{figure}
 
     Сущность с необязательным классом принадлежности (ФИЛИАЛ) именуется родительской, а с обязательным (МЕНЕДЖЕР)
@@ -569,7 +569,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic6.png}
-        \label{fig:mesh1}
+        \label{fig:mesh08}
     \end{figure}
 
     Примечание. Если внешний ключ представляет связь 1:1, то должны быть запрещены его дублирующие значения.
@@ -586,7 +586,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=100mm]{assets/security/pic7.png}
-        \label{fig:mesh1}
+        \label{fig:mesh09}
     \end{figure}
 
     При этом осуществляется декомпозиция связи 1:1 на две связи 1:1 следующим образом:
@@ -594,7 +594,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic8.png}
-        \label{fig:mesh1}
+        \label{fig:mesh10}
     \end{figure}
 
     Для связи типа 1:М существуют только два правила. Выбор одного из них зависит от класса принадлежности
@@ -612,7 +612,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=100mm]{assets/security/pic9.png}
-        \label{fig:mesh1}
+        \label{fig:mesh11}
     \end{figure}
 
     Связь между указанными таблицами будет иметь вид:
@@ -620,7 +620,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic10.png}
-        \label{fig:mesh1}
+        \label{fig:mesh12}
     \end{figure}
 
     Примечание. Если внешний ключ представляет связь 1:М, то должны быть разрешены его дублирующие значения.
@@ -638,7 +638,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=100mm]{assets/security/pic11.png}
-        \label{fig:mesh1}
+        \label{fig:mesh13}
     \end{figure}
 
     При этом осуществляется декомпозиция связи 1:М на две связи – 1:М и 1:1 – следующим образом
@@ -646,7 +646,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic12.png}
-        \label{fig:mesh1}
+        \label{fig:mesh14}
     \end{figure}
 
     Для связи типа М:N класс принадлежности сущности не имеет значения.
@@ -663,7 +663,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=100mm]{assets/security/pic13.png}
-        \label{fig:mesh1}
+        \label{fig:mesh15}
     \end{figure}
 
     При этом осуществляется декомпозиция связи М:N на две связи 1:М следующим образом:
@@ -671,7 +671,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic14.png}
-        \label{fig:mesh1}
+        \label{fig:mesh16}
     \end{figure}
 
     В таблице КЛИЕНТ–СЧЕТ клиенту, имеющему, например, три счета будут соответствовать три строки
@@ -684,7 +684,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic15.png}
-        \label{fig:mesh1}
+        \label{fig:mesh17}
     \end{figure}
 
     Связь ФИЛИАЛ – СЧЕТ  представляется (согласно правилу 4) связью:
@@ -692,7 +692,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic16.png}
-        \label{fig:mesh1}
+        \label{fig:mesh18}
     \end{figure}
 
     Связь КЛИЕНТ – СЧЕТ представляется (согласно правилу 6) связью:
@@ -700,7 +700,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic17.png}
-        \label{fig:mesh1}
+        \label{fig:mesh19}
     \end{figure}
 
     Анализ состава атрибутов полученных таблиц A, B, C, D, E, F показывает, что таблица В является составной
@@ -722,7 +722,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic18.png}
-        \label{fig:mesh1}
+        \label{fig:mesh20}
     \end{figure}
 
     \underline{1 нормальная форма (1НФ)}
@@ -735,7 +735,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic19.png}
-        \label{fig:mesh1}
+        \label{fig:mesh21}
     \end{figure}
 
     Но полученные таблицы неэффективны, так как содержат много избыточной информации. Необходимо их привести к 2НФ.
@@ -764,7 +764,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=40mm]{assets/security/pic20.png}
-        \label{fig:mesh1}
+        \label{fig:mesh22}
     \end{figure}
 
     Эта таблица удовлетворяет требованиям 2НФ.
@@ -775,7 +775,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic21.png}
-        \label{fig:mesh1}
+        \label{fig:mesh23}
     \end{figure}
 
     Новая таблица КЛИЕНТ также удовлетворяет требованиям 2НФ. Ее неключевые поля функционально полно зависят
@@ -797,7 +797,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=100mm]{assets/security/pic22.png}
-        \label{fig:mesh1}
+        \label{fig:mesh24}
     \end{figure}
 
     Затем создается новая таблица, в которую помещаются удаленные поля и поле, от которого они зависят. Она имеет вид:
@@ -805,7 +805,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=100mm]{assets/security/pic23.png}
-        \label{fig:mesh1}
+        \label{fig:mesh25}
     \end{figure}
 
     Полученные таблицы приведены к 3НФ. В них каждая запись есть отдельное независимое утверждение. Повторяются
@@ -820,7 +820,7 @@ Access List для пользователей, имеющих доступ к т
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{assets/security/pic24.png}
-        \label{fig:mesh1}
+        \label{fig:mesh26}
     \end{figure}
 
     \item \textbf{Проверка логической модели данных на предмет возможности выполнения всех транзакций, предусмотренных пользователями.}
