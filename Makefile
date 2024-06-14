@@ -4,7 +4,7 @@ tex_files := $(shell find -type f -name '*.tex' -or -name '*.bib')
 all: build run clean
 
 db.pdf: $(tex_files)
-	latexmk -pdf db.tex
+	latexmk -Werror -pdf db.tex
 
 build: db.pdf
 
