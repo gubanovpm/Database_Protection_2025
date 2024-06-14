@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:latest
 
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
@@ -12,8 +12,7 @@ RUN apt-get install -y --no-install-recommends \
     texlive-lang-cyrillic       \
     texlive-latex-extra         \
     texlive-latex-recommended   \
-    texlive-plain-generic       \
-    vim
+    texlive-plain-generic
 
 WORKDIR /data
 
