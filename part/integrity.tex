@@ -249,14 +249,16 @@
         \textbf{Serializable} — самый высокий уровень изоляции. Выполнение определяется как выполнение операций, в которых одновременно выполняемые транзакции кажутся последовательно выполняемыми \autocite{BeginningSQL}.
 \end{itemize}
 
-\begin{table}
-    \begin{tabular}{l|l|l|l|l}
-                         & Фантомное чтение         & Неповторяющееся чтение   & Грязное чтение           & Потерянное обновление    \\ \hline
-        Serializable     & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} \\ \hline
-        Repeatable Read  & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} \\ \hline
-        Read Committed   & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} \\ \hline
-        Read Uncommitted & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{32CB00} \\ \hline
-    \end{tabular}
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|}
+    \hline
+                     & Фантомное чтение         & Неповторяющееся чтение   & Грязное чтение           & Потерянное обновление    \\ \hline
+    Serializable     & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} \\ \hline
+    Repeatable Read  & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} \\ \hline
+    Read Committed   & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} \\ \hline
+    Read Uncommitted & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{32CB00} \\ \hline
+\end{tabularx}
+\caption{Уровни изоляции транзакций}
 \end{table}
 
 
