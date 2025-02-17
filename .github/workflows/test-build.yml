@@ -8,6 +8,7 @@ on:
       - 'Makefile'
       - 'Dockerfile'
 
+
 jobs:
   build:
     name: Test build Latex document
