@@ -7,6 +7,7 @@ on:
       - './*.tex'
       - 'Makefile'
       - 'Dockerfile'
+    workflow_dispatch:
 
 jobs:
   build:
