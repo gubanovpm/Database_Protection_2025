@@ -104,7 +104,7 @@
 
     В Microsoft SQL Server метаданные обо всех объектах базы данных хранятся в системных представлениях каталога, расположенных в схеме \texttt{sys}. Информация этих представлений содержит данные о таблицах, представлениях, столбцах, индексах, ограничениях и прочих объектах БД. Использование системных представлений позволяет администраторам и разработчикам получать структурированную информацию о состоянии БД и её объектах.
     
-    \subparagraph{Основные представления каталога}
+    \subparagraph{Основные представления каталога} ~\\
     
     Примеры наиболее часто используемых представлений:
     
@@ -116,7 +116,7 @@
         \item \texttt{sys.database\_principals} — информация о пользователях БД.
     \end{itemize}
     
-    \subparagraph{Примеры запросов к системным представлениям}
+    \subparagraph{Примеры запросов к системным представлениям} ~\\
     
     Для получения списка всех таблиц в текущей БД используется SQL-запрос:
     
@@ -142,7 +142,7 @@
     WHERE t.name = 'Employees';
     \end{lstlisting}
     
-    \subparagraph{Рекомендации по использованию}
+    \subparagraph{Рекомендации по использованию} ~\\
     
     Рекомендуется использовать системные представления каталога вместо прямого доступа к системным таблицам, так как представления:
     
@@ -153,6 +153,7 @@
     \end{itemize}
 
     \item \textbf{Oracle}.
+
     В Oracle Database словарь данных состоит из нескольких наборов представлений. Во многих случаях такой набор состоит из трех представлений, содержащих аналогичную информацию и отличающихся друг от друга своими префиксами \autocite{Kirillov2009}.\\
 
     Словарь данных базы данных Oracle имеет два основных применения:
@@ -207,6 +208,165 @@
     
 \end{enumerate}
 
+\paragraph{Логическая структура словаря данных} \autocite{PostgreSQLdocc51,ElmasriNavathe,Silberschatz}
+
+Логическая структура словаря данных включает в себя:
+
+\begin{itemize}
+    \item Описание структуры объектов базы данных (информация о таблицах, индексах, ограничениях, связях между объектами БД)
+    \item Метаданные о транзакциях (сведения о выполняемых операциях, механизах блокировок, истории SQL-запросов)
+    \item Статистику работы системы (данные о производительности, статистике выполнения запросов, параметрах конфигурации СУБД)
+\end{itemize}
+
+Также важно надо понимать разницу между \textbf{логической} и \textbf{физической} структурой словаря данных:
+
+\begin{itemize}
+    \item \textbf{Логическая структура} описывает, какие именно данные хранятся, в каком виде они представлены, как взоимосвязаны между собой
+    \item \textbf{Физическая структура} (рассмотрится далее) описывает где и как хранятся данные словаря, какие файлы и таблицы используются
+\end{itemize}
+
+Словари данных могут быть \textbf{стандартные} и \textbf{вендор-зависимые}:
+
+\begin{enumerate}
+ 
+    \item Стандартные словари данных реализованы по международным стандартам SQL и обеспечивают SQL-запросы к словарю совместимыми между различными СУБД. Ключевой пример – схема \texttt{INFORMATION\_SCHEMA} (введенная в стандарт SQL-92). Оно поддерживается в MySQL, Microsoft SQL Server, PostgreSQL и других СУБД и позволяет разработать межплатформенные решения.
+
+        \textbf{Пример SQL-запроса}:
+        \begin{lstlisting}[language=SQL]
+        SELECT table_name, column_name, data_type 
+        FROM INFORMATION_SCHEMA.COLUMNS 
+        WHERE table_schema = 'public';
+        \end{lstlisting}
+
+    \item Вендор-зависимые словари данных реализованы специфическими разработчиками СУБД и как правило зачастую \textbf{предоставляют расширенные возможности, недоступные в стандартных словарях}. 
+
+    Примеры вендор-зависимых системных каталогов:
+    \begin{itemize}
+        \item PostgreSQL: \texttt{pg\_catalog} – содержит таблицы \texttt{pg\_tables}, \texttt{pg\_indexes}, \texttt{pg\_roles} (расширеные метаданные о структуре БД).
+        \item Microsoft SQL Server: \texttt{sys.*} – набор системных представлений, включающий \texttt{sys.tables}, \texttt{sys.columns}, \texttt{sys.indexes} и другие.
+        \item Oracle: \texttt{DBA\_*}, \texttt{ALL\_*}, \texttt{USER\_*} – системные представления для админов, юзеров и всех объектов бд.
+    \end{itemize}
+
+\end{enumerate}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Тип словаря} & \textbf{Пример в СУБД} & \textbf{Совместимость} \\
+        \hline
+        Стандартный & INFORMATION\_SCHEMA & Высокая (MySQL, SQL Server, PostgreSQL) \\
+        \hline
+        Вендор-зависимый & pg\_catalog (PostgreSQL) & Ограниченная (только PostgreSQL) \\
+        \hline
+        Вендор-зависимый & sys.* (SQL Server) & Только Microsoft SQL Server \\
+        \hline
+        Вендор-зависимый & DBA\_* (Oracle) & Только Oracle DB \\
+        \hline
+    \end{tabular}
+    \caption{Стандартные и вендор-зависимые словари данных}
+    \label{tab:data_dictionary_comparison}
+\end{table}
+
+Ну то есть суть в том, что использование вендор-зависимых требует всяких специфических знаний конкретной платформы.
+
+\subparagraph{Основные объекты, хранящиеся в словаре данных}
+
+\begin{enumerate}
+
+    \item Таблицы и их атрибуты
+
+    Одним из основных компонентов словаря данных является информация о таблицах и их атрибутах. В реляционной модели данные организованы в виде таблиц, и их структура должна быть четко определена и документирована.
+
+    \begin{enumerate}
+        \item Метаданные о таблицах
+
+        \begin{itemize}
+            \item Название таблицы (\texttt{table\_name})
+            \item Схема (пространство имен) (\texttt{schema\_name})
+            \item Тип таблицы (обычная, временная, внешняя и т. д.)
+            \item Дата создания и последнего изменения
+            \item Физическое расположение таблицы (табличное пространство, файловая группа)
+            \item Овнер таблицы (создатель)
+            \item Размер таблицы (количество строк, объем занимаемого пространства на диске)
+        \end{itemize}
+
+        Пример SQL-запроса (PostgreSQL, получение информации о таблицах):
+        \begin{lstlisting}[language=SQL]
+        SELECT schemaname, tablename, tableowner, tablespace 
+        FROM pg_tables;
+        \end{lstlisting}
+
+        Примеры расположения метаданных о таблицах в разных СУБД:
+        \begin{itemize}
+            \item PostgreSQL: \texttt{pg\_class}, \texttt{pg\_tables}
+            \item MySQL: \texttt{INFORMATION\_SCHEMA.TABLES}
+            \item SQL Server: \texttt{sys.tables}
+            \item Oracle: \texttt{ALL\_TABLES}, \texttt{USER\_TABLES}, \texttt{DBA\_TABLES}
+        \end{itemize}
+
+        \item Атрибуты (столбцы) таблиц
+    
+        Кроме информации о таблице в целом, важно хранить сведения о ее столбцах и их свойствах:
+        
+        \begin{itemize}
+            \item Имя столбца (\texttt{column\_name})
+            \item Тип данных (\texttt{VARCHAR}, \texttt{INTEGER}, \texttt{BOOLEAN} и т. д.)
+            \item Размерность данных (\texttt{length}, \texttt{precision}, \texttt{scale})
+            \item Значение по умолчанию
+            \item Является ли столбец автоинкрементным (\texttt{SERIAL}, \texttt{IDENTITY} и т. д.)
+            \item Описание (комментарий к столбцу, если поддерживается СУБД)
+        \end{itemize}
+
+        Пример SQL-запроса (MySQL, получение информации о столбцах таблицы):
+        \begin{lstlisting}[language=SQL]
+        SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE 
+        FROM INFORMATION_SCHEMA.COLUMNS 
+        WHERE TABLE_NAME = 'employees';
+        \end{lstlisting}
+    \end{enumerate}
+    
+    \item Индексы
+
+    Индексы важны в плане повышения производительности запросов. Они позволяют ускорить поиск данных, но увеличевают объем занимаемого дискового пространства.
+
+    В словаре данных хранятся метаданные о индексах:
+    \begin{itemize}
+        \item Название индекса
+        \item Тип индекса (\texttt{B-Tree}, \texttt{Hash}, \texttt{GIN}, \texttt{Full-text})
+        \item Таблица, к которой индекс относиться
+        \item Столбцы, использованные для индексации
+        \item Параметры индекса (уникальность, сортировка, частичность)
+        \item Статистика использования индекса (сколько раз использовался, степень фрагментации)
+    \end{itemize}
+
+    Примеры росположения индексов в разных СУБД:
+    \begin{itemize}
+        \item \textbf{PostgreSQL}: \texttt{pg\_index}, \texttt{pg\_class}, \texttt{pg\_indexes}
+        \item \textbf{MySQL}: \texttt{INFORMATION\_SCHEMA.STATISTICS}
+        \item \textbf{SQL Server}: \texttt{sys.indexes}, \texttt{sys.index\_columns}
+        \item \textbf{Oracle}: \texttt{DBA\_INDEXES}, \texttt{USER\_INDEXES}
+    \end{itemize}
+
+    Пример SQL-запроса (Oracle, получение информации об индексах таблицы):
+    \begin{lstlisting}[language=SQL]
+    SELECT INDEX_NAME, TABLE_NAME, UNIQUENESS, STATUS 
+    FROM DBA_INDEXES 
+    WHERE TABLE_NAME = 'EMPLOYEES';
+    \end{lstlisting}
+
+
+
+
+
+
+
+
+
+
+
+
+\end{enumerate}
 \paragraph{Типы словарей данных} ~\\
 
 Существует два типа словарей данных. Активные и пассивные, они отличаются уровнем автоматической синхронизации \autocite{DataDictionary}:
