@@ -270,11 +270,11 @@
 
 Ну то есть суть в том, что использование вендор-зависимых требует всяких специфических знаний конкретной платформы.
 
-\subparagraph{Основные объекты, хранящиеся в словаре данных}
+\subparagraph{Основные объекты, хранящиеся в словаре данных} ~\\
 
 \begin{enumerate}
 
-    \item Таблицы и их атрибуты
+    \item Таблицы и их атрибуты \autocites[§51.11]{PostgreSQLdocc51}[§28.3.38]{Mysqldoc1}{MicrosoftLearnSQLserver}
 
     Одним из основных компонентов словаря данных является информация о таблицах и их атрибутах. В реляционной модели данные организованы в виде таблиц, и их структура должна быть четко определена и документирована.
 
@@ -326,7 +326,7 @@
         \end{lstlisting}
     \end{enumerate}
     
-    \item Индексы
+    \item Индексы \autocites[§51.26]{PostgreSQLdocc51}[§52.11]{PostgreSQLdocc52}[§28.3.34]{Mysqldoc1}{MicrosoftLearnSQLserverInd}
 
     Индексы важны в плане повышения производительности запросов. Они позволяют ускорить поиск данных, но увеличевают объем занимаемого дискового пространства.
 
@@ -342,10 +342,10 @@
 
     Примеры росположения индексов в разных СУБД:
     \begin{itemize}
-        \item \textbf{PostgreSQL}: \texttt{pg\_index}, \texttt{pg\_class}, \texttt{pg\_indexes}
-        \item \textbf{MySQL}: \texttt{INFORMATION\_SCHEMA.STATISTICS}
-        \item \textbf{SQL Server}: \texttt{sys.indexes}, \texttt{sys.index\_columns}
-        \item \textbf{Oracle}: \texttt{DBA\_INDEXES}, \texttt{USER\_INDEXES}
+        \item PostgreSQL: \texttt{pg\_index}, \texttt{pg\_class}, \texttt{pg\_indexes}
+        \item MySQL: \texttt{INFORMATION\_SCHEMA.STATISTICS}
+        \item SQL Server: \texttt{sys.indexes}, \texttt{sys.index\_columns}
+        \item Oracle: \texttt{DBA\_INDEXES}, \texttt{USER\_INDEXES}
     \end{itemize}
 
     Пример SQL-запроса (Oracle, получение информации об индексах таблицы):
@@ -355,18 +355,84 @@
     WHERE TABLE_NAME = 'EMPLOYEES';
     \end{lstlisting}
 
+    \item Ограничения целостности \autocites[§51.13]{PostgreSQLdocc51}[§28.3.42]{Mysqldoc1}{MicrosoftLearnSQLserverTab}
 
+    Они служат для обиспечения корректности данных в таблицах
 
+    Хранимая информация:
+    \begin{itemize}
+        \item Тип ограничения (\texttt{PRIMARY KEY} (опреденяет основной ключ таблицы), \texttt{FOREIGN KEY} (обиспечивает ссылочную целостность), \texttt{CHECK} (накл. ограничения на знач. столбцов), \texttt{UNIQUE} (гарантироет уникальность значений в таблице), \texttt{NOT NULL} (запрет хранить NULL в столбце))
+        \item Целевая таблица (на которую наклыдвается ограничение целостности) и столбцы
+        \item Дейстия при удалении илии обновлении (\texttt{ON DELETE CASCADE}, \texttt{ON UPDATE SET NULL})
+    \end{itemize}
 
+    Примеры разположения метаданных об ограничениях в разных СУБД:
+    \begin{itemize}
+        \item PostgreSQL: \texttt{pg\_constraint}
+        \item MySQL: \texttt{INFORMATION\_SCHEMA.KEY\_COLUMN\_USAGE}, \texttt{INFORMATION\_SCHEMA.TABLE\_CONSTRAINTS}
+        \item SQLServer: \texttt{sys.foreign\_keys}, \texttt{sys.check\_constraints}, \texttt{sys.key\_constraints}
+        \item Oracle: \texttt{ALL\_CONSTRAINTS}, \texttt{USER\_CONSTRAINTS}, \texttt{DBA\_CONSTRAINTS}
+    \end{itemize}
 
+    Пример SQL-запроса (PostgreSQL, получение ограничений таблицы):
+    \begin{lstlisting}[language=SQL]
+    SELECT conname, contype, conrelid::regclass AS table_name 
+    FROM pg_constraint 
+    WHERE conrelid = 'employees'::regclass; 
+    \end{lstlisting}
 
+    Пример SQL-запроса (MySQL, ограничение \texttt{UNIQUE} на \texttt{email} в таблице \texttt{users}):
+    \begin{lstlisting}[language=SQL]
+    ALTER TABLE users
+    ADD CONSTRAINT unique_email UNIQUE (email);    
+    \end{lstlisting}
 
+    Пример SQL-запроса (PostgreSQL, ограничение \texttt{FOREIGN KEY} для \texttt{orders.customer\_id}, ссылающееся на \texttt{customers.id}):
+    \begin{lstlisting}[language=SQL]
+    ALTER TABLE orders
+    ADD CONSTRAINT fk_customer FOREIGN KEY (customer_id)
+    REFERENCES customers(id) ON DELETE CASCADE;
+    \end{lstlisting}
 
+    \item Пользователи и их правами \autocite{MicrosoftLearnSQLserverPerm, oracledbdoc3}
 
+    Для управления доступов к БД в словарке данных хранится информация о прльзователях и их привилегиях и ролях:
+    \begin{itemize}
+        \item Список всех пользователей СУБД (\texttt{user\_name} пользователей)
+        \item Назначенные роли (\texttt{DBA}, \texttt{PUBLIC}, \texttt{SUPERUSER})
+        \item Гранты привилегий на обьекты (\texttt{SELECT}, \texttt{INSERT}, \texttt{UPDATE}, \texttt{DELETE})
+    \end{itemize}
 
+    Примеры расположения метаданные о пользоватеях в разных СУБД:
 
+    \begin{itemize}
+        \item PostgreSQL: \texttt{pg\_roles}, \texttt{pg\_authid}
+        \item MySQL: \texttt{mysql.user}, \texttt{INFORMATION\_SCHEMA.USER\_PRIVILEGES}
+        \item SQLServer: \texttt{sys.database\_principals}, \texttt{sys.database\_role\_members}
+        \item Oracle: \texttt{DBA\_USERS}, \texttt{ALL\_USERS}, \texttt{USER\_USERS}
+    \end{itemize}
+
+    Пример SQL-запроса (PostgreSQL):
+    \begin{lstlisting}[language=SQL]
+    SELECT rolname, rolsuper, rolcreatedb, rolcanlogin 
+    FROM pg_roles;             
+    \end{lstlisting}
+
+    Пример SQL-запроса (SQL Server, получение списка пользователей и их ролей):
+    \begin{lstlisting}[language=SQL]
+    SELECT name, type_desc 
+    FROM sys.database_principals 
+    WHERE type IN ('S', 'U');              
+    \end{lstlisting}
 
 \end{enumerate}
+
+
+
+
+
+
+
 \paragraph{Типы словарей данных} ~\\
 
 Существует два типа словарей данных. Активные и пассивные, они отличаются уровнем автоматической синхронизации \autocite{DataDictionary}:
@@ -395,21 +461,6 @@
     \item Привилегии и роли, предоставленные каждому пользователю;
     \item Другие общие сведения о базе данных.
 \end{itemize}
-
-\paragraph{Состав словаря} ~\\
-
-В состав словаря данных базы данных могут входить \autocite{DataDictionary}:
-
-\begin{itemize}
-    \item Списки объектов данных (имена и определения);
-    \item Свойства элемента данных (тип данных, уникальные идентификаторы, размер, допустимость значений NULL, индексы и параметр required);
-    \item ERD-диаграммы 
-        \footnote{Схема «сущность-связь» (также ERD или ER-диаграмма) — это разновидность блок-схемы, где показано, как разные «сущности» (люди, объекты, концепции и так далее) связаны между собой внутри системы.};
-    \item Диаграммы системного уровня (они же DFD-диаграммы);
-    \item Справочные данные — доступные пользователю представления, которые суммируют и отображают в удобном формате информацию из базовых таблиц словаря. Эти представления декодируют информацию базовых таблиц, представляя её в полезном виде, таком как имена пользователей или таблиц, чтобы добиться человекочитаемости данных. Большинство пользователей имеют доступ к этим представлениям вместо диаграмм системного уровня;
-    \item Бизнес-логика (например, для проверки качества данных и объектов схемы);
-\end{itemize}
-
 
 \subsection{Понятие транзакции}
 
