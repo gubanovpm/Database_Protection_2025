@@ -554,6 +554,103 @@
 \end{lstlisting}
 
 
+\paragraph{Статистика работы СУБД} ~\\
+
+Статистика работы СУБД также представляет из себя метаданные которые фиксируют информацию о произчодительности системы, нагрузке на сервер, использовании индексов, частоте выполнения запросов. Подобного рода данные дают возможность админам анализировать производительность БД и оптимизировать систему.
+
+\subparagraph{Анализ производительности} ~\\
+
+Анализ производительности позволяет определить, какие запросы и операции замедляют работу СУБД. Для этого мониторится:
+\begin{itemize}
+    \item Использование процессора (время выполнения SQL-запросов, нагрузка на CPU)
+    \item Операции чтения/записи на диск и использование кэша
+    \item Потребление памяти (размер буферного кэша, использование индексов)
+\end{itemize}
+
+В разных СУБД следующие механизмы для анализа производительности:
+\begin{itemize}
+    \item PostgreSQL: \texttt{pg\_stat\_statements}, \texttt{pg\_stat\_activity}, \texttt{pg\_stat\_bgwriter} \autocite[§27.2]{PostgreSQLdocc27}
+    \item MySQL: \texttt{performance\_schema}, \texttt{INFORMATION\_SCHEMA.PROCESSLIST} \autocite{Mysqldoc2}
+    \item SQL Server: \texttt{sys.dm\_exec\_requests}, \texttt{sys.dm\_exec\_query\_stats} \autocite{MicrosoftLearnSQLserverSysDymView}
+    \item Oracle: \texttt{V\textdollar SYSSTAT}, \texttt{V\textdollar SESSION}, \texttt{V\textdollar SQL} \autocite[c. 9 §9.98, §9.17, §9.46]{oracledbdoc2}
+\end{itemize}
+
+Пример PostgreSQL — анализ нагрузки активных запросов. Опридиляет SQL-запросы с наибольшим временем выполнения:
+\begin{lstlisting}[language=SQL]
+    SELECT pid, query, calls, total_exec_time / calls AS avg_exec_time
+    FROM pg_stat_statements
+    ORDER BY avg_exec_time DESC
+    LIMIT 5;        
+\end{lstlisting}
+
+Другой пример (MySQL, анализ медленных запросов)
+\begin{lstlisting}[language=SQL]
+    SELECT start_time, user_host, query_time, sql_text
+    FROM mysql.slow_log
+    ORDER BY query_time DESC
+    LIMIT 5;        
+\end{lstlisting}
+
+\subparagraph{Статистика выполнения запросов} ~\\
+
+Статистические данные также использутся для оптимизации индексов (анализируется частота обращения к различным таблицам), выявления "дорогих" запросов (запросов с высокой нагрузкой на процессор или диск) и настройки кэша и оценки эффективности буферизации данных.
+
+Примеры механизмов сбора статистики запросов:
+\begin{itemize}
+    \item PostgreSQL: \texttt{pg\_stat\_statements} хранит частоту и среднее время выполнения запросов
+    \item MySQL: \texttt{performance\_schema.events\_statements\_summary\_by\_digest} агрегирует запросы по шаблону
+    \item SQL Server: \texttt{sys.dm\_exec\_query\_stats} дает инфорамцию о частоте выполнения запросов
+    \item Oracle: \texttt{V\textdollar SQLAREA} хранить статистику о выполненных запросах
+\end{itemize}
+
+Пример (SQL Server, анализ самых ресурсозатратных запросов)
+\begin{lstlisting}[language=SQL]
+    SELECT TOP 5 
+        total_logical_reads AS Reads, 
+        total_worker_time AS CPU_Time, 
+        execution_count AS Executions, 
+        text AS Query_Text 
+    FROM sys.dm_exec_query_stats qs
+    CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle)
+    ORDER BY total_worker_time DESC;
+\end{lstlisting}
+
+Пример (Oracle, последние 10 выполненных запросов, показывает частоту и среднее время выполнения)
+\begin{lstlisting}[language=SQL]
+    SELECT sql_text, executions, elapsed_time / executions AS avg_exec_time
+    FROM V$SQLAREA
+    WHERE executions > 0
+    ORDER BY first_load_time DESC
+    FETCH FIRST 10 ROWS ONLY;
+\end{lstlisting}
+
+\subparagraph{Автоматическая сборка аналитики СУБД} ~\\
+
+Некоторые (все из рассматриваемых четырех) СУБД автоматически автоматически анализируют статистику и используют её для внутренней оптимизации
+\begin{itemize}
+    \item PostgreSQL: \texttt{pg\_stat\_statements} автоматически анализирует запросы и создает план выполнения
+    \item MySQL: \texttt{performance\_schema.setup\_instruments} мониторит работу серверных процессов
+    \item SQL Server: \texttt{Query Store} хранит статистку выполнения запросов и их планы
+    \item Oracle: \texttt{V\textdollar SQL\_PLAN}, \texttt{V\textdollar SQL\_OPTIMIZER\_ENV} отслеживают параметры оптимизатора
+\end{itemize}
+
+Пример (PostgreSQL, анализ частоты выполнения запросов)
+\begin{lstlisting}[language=SQL]
+    SELECT query, calls, total_exec_time / calls AS avg_exec_time
+    FROM pg_stat_statements
+    ORDER BY calls DESC
+    LIMIT 10;
+\end{lstlisting}
+
+Пример (Oracle, анализ плана выполнения запроса)
+\begin{lstlisting}[language=SQL]
+    SELECT sql_id, plan_hash_value, executions, buffer_gets, elapsed_time
+    FROM V$SQL_PLAN
+    ORDER BY elapsed_time DESC
+    FETCH FIRST 5 ROWS ONLY;
+\end{lstlisting}
+
+
 
 
 
