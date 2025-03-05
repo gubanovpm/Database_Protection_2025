@@ -208,7 +208,7 @@
     
 \end{enumerate}
 
-\subsubsection{Логическая структура словаря данных}
+\subsubsection{Логическая структура словаря данных} ~\\
 
 Логическая структура словаря данных \autocite{PostgreSQLdocc51,ElmasriNavathe,Silberschatz} включает в себя:
 
@@ -649,6 +649,66 @@
     ORDER BY elapsed_time DESC
     FETCH FIRST 5 ROWS ONLY;
 \end{lstlisting}
+
+\subsubsection{Физическая структура словаря данных} ~\\
+
+Здесь будет обсуждено хранение метаданные внутри файловой системы рассматриваемых СУБД. В отличие от логической структуры, которая описывает структуру и взаимосвязь данных на уровне схем и объектов БД, физическая структура это расположение системных файлов, их формат и механизмы работы с пространством на диске.
+
+\paragraph{Расположение метаданных в файловой системе} ~\\
+
+\subparagraph{PostgreSQL} \autocite{PostgreSQLdocc65} ~\\
+
+PostgreSQL хранит метаданные о БД в системных таблицах, но сами файлы с данными располагаются в каталоге PGDATA, обычно \texttt{/var/lib/postgresql/<version>/main/} (в Linux) или \texttt{C:\textbackslash{}Program Files\textbackslash{}PostgreSQL\textbackslash{}<version>\textbackslash{}data\textbackslash{}} (в Windows)
+Также основные файлы и каталоги, связаные с метаданными:
+\begin{itemize}
+    \item \texttt{pg\_catalog/} содержит системные таблицы с метаданными (\texttt{pg\_class}, \texttt{pg\_attribute}, \texttt{pg\_roles} и тд)
+    \item \texttt{pg\_xact} фиксирует состояние транзакций
+    \item \texttt{pg\_wal} - журнал предзаписи (WAL) для восстановления
+    \item \texttt{base/} - директория с данными всех баз (каждая база имеет свой подкаталок)
+\end{itemize}
+
+\subparagraph{MySQL} \autocite[§17.6]{Mysqldoc4} ~\\
+
+Используются два формата хранения метаданных: файловый и табличный.
+
+\begin{itemize}
+    \item \texttt{datadir/} - каталог где хранятся базы данных (обычно \texttt{var/lib/mysql})
+    \item \texttt{ibdata1} - общий файл хрвнилища InnoDB, там записаны метаданные 
+    \item \texttt{ib\_logfile0}, \texttt{ib\_logfile1} - файлы журнала транзакций InnoDB 
+    \item \texttt{.frm} - файлы схем таблиц (используюстя в MyISAM)
+    \item \texttt{.ibd} - файлы хранения данных и индексов для InnoDB 
+\end{itemize}
+
+\subparagraph{SQL Server} \autocite{MicrosoftLearnSQLserverMasterdb,MicrosoftLearnSQLserverTempdb,MicrosoftLearnSQLserverDBfiles,MicrosoftLearnSQLserverFileLoc} ~\\
+
+Тут метаданные хранятся в системной базе даных \texttt{master}, а физически - в файлах формата MDF (основные файлы БД) и LDF (журналы транзакций)
+
+\begin{itemize}
+    \item \texttt{\%ProgramFiles\%\textbackslash{}Microsoft SQL Server\textbackslash{}MSSQL<number>.MSSQLSERVER\textbackslash{}MSSQL\textbackslash{}DATA\textbackslash{}} - каталог с данными
+    \item \texttt{master.mdf} - основной файл БД с метаданными о сервере, содержит важные метаданные (инфу о всех базах, юзерах, настройках) 
+    \item \texttt{tempdb.mdf} - временное хранилище данных, временная база данных, для операций а-ля с сортировками и индексами
+\end{itemize}
+
+
+\subparagraph{Oracle} \autocites[§1.338]{oracledbdoc0}{oracledbdoc4}{OracleRedoLog} ~\\
+
+В Oracle для хранения метаданных используются табличные пространства (\texttt{tablespaces}) и бинарные файлы
+
+\begin{itemize}
+    \item \texttt{SYSTEM tablespace} - файл данных содержащий основный метаданные и системный каталог базы данных
+    \item \texttt{SYSAUX tablespace} - вспомогательный табличный каталог хранилище метаданных
+    \item \texttt{REDO*.log} - фыйла журналов транзакций
+    \item \texttt{spfile.ora} - бинарный файл параметорв базы данных
+    \item \texttt{V\textdollar DATAFILE}, \texttt{DBA\_TABLES} - таблицы системного словаря
+\end{itemize}
+
+
+
+
+
+
+
+
 
 
 
