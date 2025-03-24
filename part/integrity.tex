@@ -1,31 +1,33 @@
 \section{Механизмы обеспечения целостности СУБД}
 
 \subsection{Угрозы целостности СУБД}
-Задача обеспечения целостности предусматривает комплекс мер по предотвращению непреднамеренного изменения или уничтожения информации, используемой информационной системой управления или системой поддержки принятия решений. Изменение или уничтожение данных может быть следствием неблагоприятного стечения обстоятельств и состояния внешней среды (стихийные бедствия, пожары и т. п.), неадекватных действий пользователей (ошибки при вводе данных, ошибки операторов и т. п.) и проблем, возникающих при многопользовательской обработке данных \autocite{Lihonosov2011}.
+Задача обеспечения целостности предусматривает комплекс мер по предотвращению как непреднамеренного, так и преднамеренного изменения или уничтожения информации, используемой информационной системой управления или системой поддержки принятия решений. Изменение или уничтожение данных может быть следствием неблагоприятного стечения обстоятельств и состояния внешней среды (стихийные бедствия, пожары и т. п.), аппаратных или программных сбоев (отказ дисковой системы, нарушение целостности файлов БД, ошибки ПО), а также неадекватных действий пользователей (ошибки при вводе данных, ошибки операторов и т. п.) и проблем, возникающих при некорректной организации многопользовательской обработки данных, таких как некорректное управление конкурентным доступом, отсутствие механизмов блокировки и контроля изоляции транзакций. \autocite{Lihonosov2011, postgredoc1}.
 
+Кроме того, угрозу целостности представляют преднамеренные атаки, например: SQL-инъекции, модификация данных привилегированными пользователями, эксплуатация уязвимостей в механизмах контроля доступа. Целостность данных также может быть нарушена в результате физического повреждения носителей информации (износ SSD/HDD, сбои в RAID-массивах, ошибки в системе хранения).
 
-Например, с помощью SQL-операторов UPDATE, INSERT и DELETE можно изменить данные в СУБД. Опасность заключается в том, что пользователь, обладающий соответствующими привилегиями, может модифицировать все записи в таблице \autocite{Utebov2008}.
+Например, при отсутствии механизмов контроля доступа, с помощью SQL-операторов UPDATE, INSERT и DELETE, злоумышленник или просто неопытный пользователь могут изменить данные в СУБД. Опасность заключается в том, что, при отсутствии принципа минимально необходимых привилегий, пользователь может получить возможность модифицировать все записи в таблице.  \autocite{Utebov2008, nist80012}.
 
 \paragraph{Основные виды и причины возникновения угроз целостности} ~\\
 
-Нарушение целостности информационной базы может произойти по причинам, по которым может произойти и нарушение доступности информации.
-Перечислим основные угрозы целостности информации \autocite{Pirogov2009}:
+Нарушение целостности информационной системы может произойти по разным причинам (включая технические сбои, ошибки конфигурирования, неправильные действия пользователя, преднамеренные атаки), и некоторые из этих причин могут также приводить и к нарушению доступности информации. 
+Эти факторы можно разделить на внутренние (возникающие в рещультате ошибок эксплуатации или ПО) и внешние (обусловлинные воздействием окружающего мира, злоумышленников, технических сбоев).
 
 \begin{enumerate}
 \item \textbf{Внутренние угрозы целостности ИС}.
     \begin{itemize}
-        \item Случайное или умышленное отступление от правил эксплуатации. Например, правила могут предусматривать определенный набор параметров сервера (объем памяти, производительность процессора, объем дискового пространства, версия операционной системы и т.п.), на котором предполагается использовать ИС;
-        \item Выход системы из штатного режима эксплуатации в силу случайных или преднамеренных действий пользователей, администраторов и т.д.;
-        \item Ошибки конфигурирования системы. В сложных системах конфигурирование выполняется при установке и настройке системы;
-        \item Отказ программного обеспечения. Программное обеспечение может содержать ошибки, в том числе и такие, которые могут привести к серьезным повреждениям данных. Кроме этого преднамеренно может быть изменен алгоритм программы. Таким образом, следует защищать программное обеспечение информационной системы и от случайного повреждения, и от исправления непосредственно исполняемых модулей.
+        \item Случайное или умышленное отступление от правил эксплуатации. Например, правила могут предусматривать определенный набор параметров сервера (объем памяти, производительность процессора, объем дискового пространства, версия операционной системы и т.п.), на котором предполагается использовать ИС. Сюда же можно отнести, например, некорректную настройку резервного копирования или преднамеренное отключение логирования.;
+        \item Ошибки конфигурирования системы на этапах установки, обновления, эксплуатации. Например, неправильное (необдуманное) управление правами доступа, незащищенные сетевые интерфейсы и т.д.;
+        \item Отказ программного обеспечения. Может быть вызван ошибками разработки, какими-то некорректными обновлениями, ну или преднамеренными изменениями кода (например, внедрение вредоносного ПО)
+	\item Проблемы управления многопользовательским доступом (состояния гонки, deadlock-ситуации, аномалии уровнеий изоляции транзакций)
     \end{itemize}
 
 \item \textbf{Внешние угрозы целостности ИС}.
     \begin{itemize}
-        \item Нарушение условий работы ИС (проблемы с системами связи, отключения электропитания, отопления и т.п.).
-        \item Разрушение или повреждение помещений, связанное с природными катаклизмами. Конечно, такая ситуация на первый взгляд кажется мало возможной, но это вполне вероятно в регионах, например, с сейсмической неустойчивостью.
-        \item Разрушение информации намеренными действиями человека (диверсия). В данном случае речь идет о действиях людей, не являющихся обслуживающим персоналом данной системы.
-        \item Сетевые атаки, вирусные программы и другое вредоносное программное обеспечение.
+        \item Нарушение условий работы ИС, вызванные сбоями облачных сервисов и/или являющееся следствием зависимости от сторонних провайдеров (проблемы с системами связи, отключения электропитания, отопления и т.п.).
+        \item Разрушение или повреждение помещений, связанное с природными катаклизмами. Конечно, такая ситуация на первый взгляд кажется мало возможной, но это вполне вероятно в регионах, например, с сейсмической неустойчивостью (привет Камчатке).
+        \item Разрушение информации преднамеренными действиями злоумышленников или инсайдеров.
+        \item Сетевые атаки, вредоносные программы (к примеру, шифровальщики, модифицирующие данные), SQL-инъекции, атаки на механизмы репликации и т.д.
+	\item Эксплуатация уязвимостей в СУБД, физический доступ к оборудованию.
     \end{itemize}
 \end{enumerate}
 
@@ -39,6 +41,7 @@
     \item Резервное копирование данных. Использование PITR (point-in-time recovery), географически распределеная репликация на случай какого-то серьезного сбоя, \autocite{PITRintro};
     \item Периодическое тестирование системы на предмет нарушения целостности, анализ логов БД, а также использование IDS с целью попыток выявления попыток несанкционированного изменения данных \autocite{DBtest}.
     \item Использование отказоустойчивых серверов, UPS (системы бесперебойного питания), аппаратных средств шифрования, осуществление контроля доступа к серверному оборудованию \autocite{tolerance1, tolerance2}.
+
 \end{itemize}
 
 \subsection{Метаданные и словарь данных}
@@ -50,7 +53,7 @@
 Говоря более простым языком: 
 Если \textbf{данные} — то, что хранится в базе данных приложения (данные о клиентах, пользователях, заказах и т.п.), то \textbf{метаданные} — это описание структуры данных. Описание того, какие типы объектов хранятся в базе данных, какие у них есть поля (атрибуты, элементы), описание зависимостей между объектами. В общем случает типы могут наследовать атрибуты родительского типа, а один атрибут в общем случае может присутствовать у двух и более типов, несвязанных отношением наследования \autocite{Metadatahabr}.
 
-\paragraph{Назначение словаря данных} ~\\
+\subsubsection{Назначение словаря данных} ~\\
 
 Согласно реляционной модели данных, информация о структуре базы данных должна храниться в самой базе данных, в виде специальных таблиц. Это требование описано в 4-м правиле Кодда (Dynamic On-Line Catalog Based on the Relational Model), согласно которому СУБД должна автоматически управлять метаданными и обеспечивать их доступность через стандартные средства запросов.
 
@@ -64,7 +67,7 @@
 
 В \textbf{SQL-92} была стандартизирована структура системного каталога, а точнее представления, объединенные в схему \texttt{INFORMATION\_SCHEMA}. Эта штука в какой-то степени развязала руки разработчикам писать универсальные запросы для получения информации о таблицах, индексах, ограничениях и других объектах БД вне зависимости от конкретной СУБД. Однако на момент принятия стандарта, многие СУБД уже использовали собственные форматы каталогов, и их переход на \texttt{INFORMATION\_SCHEMA} оказался затруднительным.
 
-\paragraph{Реализация системных каталогов в разных СУБД}
+\subsubsection{Реализация системных каталогов в разных СУБД}
 
 Реализация и организация системных каталогов отличаются в зависимости от СУБД.
 
@@ -101,7 +104,7 @@
 
     В Microsoft SQL Server метаданные обо всех объектах базы данных хранятся в системных представлениях каталога, расположенных в схеме \texttt{sys}. Информация этих представлений содержит данные о таблицах, представлениях, столбцах, индексах, ограничениях и прочих объектах БД. Использование системных представлений позволяет администраторам и разработчикам получать структурированную информацию о состоянии БД и её объектах.
     
-    \subparagraph{Основные представления каталога}
+    \subparagraph{Основные представления каталога} ~\\
     
     Примеры наиболее часто используемых представлений:
     
@@ -113,7 +116,7 @@
         \item \texttt{sys.database\_principals} — информация о пользователях БД.
     \end{itemize}
     
-    \subparagraph{Примеры запросов к системным представлениям}
+    \subparagraph{Примеры запросов к системным представлениям} ~\\
     
     Для получения списка всех таблиц в текущей БД используется SQL-запрос:
     
@@ -139,7 +142,7 @@
     WHERE t.name = 'Employees';
     \end{lstlisting}
     
-    \subparagraph{Рекомендации по использованию}
+    \subparagraph{Рекомендации по использованию} ~\\
     
     Рекомендуется использовать системные представления каталога вместо прямого доступа к системным таблицам, так как представления:
     
@@ -150,6 +153,7 @@
     \end{itemize}
 
     \item \textbf{Oracle}.
+
     В Oracle Database словарь данных состоит из нескольких наборов представлений. Во многих случаях такой набор состоит из трех представлений, содержащих аналогичную информацию и отличающихся друг от друга своими префиксами \autocite{Kirillov2009}.\\
 
     Словарь данных базы данных Oracle имеет два основных применения:
@@ -204,6 +208,705 @@
     
 \end{enumerate}
 
+\subsubsection{Логическая структура словаря данных} ~\\
+
+Логическая структура словаря данных \autocite{PostgreSQLdocc51,ElmasriNavathe,Silberschatz} включает в себя:
+
+\begin{enumerate}
+    \item Описание структуры объектов базы данных (информация о таблицах, индексах, ограничениях, связях между объектами БД)
+    \item Метаданные о транзакциях (сведения о выполняемых операциях, механизах блокировок, истории SQL-запросов)
+    \item Статистику работы системы (данные о производительности, статистике выполнения запросов, параметрах конфигурации СУБД)
+\end{enumerate}
+
+Далее (через страницу) последовательно будут рассмотрены каждый из этих пунктов
+
+Также важно надо понимать разницу между \textbf{логической} и \textbf{физической} структурой словаря данных:
+
+\begin{itemize}
+    \item \textbf{Логическая структура} описывает, какие именно данные хранятся, в каком виде они представлены, как взоимосвязаны между собой
+    \item \textbf{Физическая структура} (рассмотрится далее) описывает где и как хранятся данные словаря, какие файлы и таблицы используются
+\end{itemize}
+
+Словари данных могут быть \textbf{стандартные} и \textbf{вендор-зависимые}:
+
+\begin{enumerate}
+ 
+    \item Стандартные словари данных реализованы по международным стандартам SQL и обеспечивают SQL-запросы к словарю совместимыми между различными СУБД. Ключевой пример – схема \texttt{INFORMATION\_SCHEMA} (введенная в стандарт SQL-92). Оно поддерживается в MySQL, Microsoft SQL Server, PostgreSQL и других СУБД и позволяет разработать межплатформенные решения.
+
+        \textbf{Пример SQL-запроса}:
+        \begin{lstlisting}[language=SQL]
+        SELECT table_name, column_name, data_type 
+        FROM INFORMATION_SCHEMA.COLUMNS 
+        WHERE table_schema = 'public';
+        \end{lstlisting}
+
+    \item Вендор-зависимые словари данных реализованы специфическими разработчиками СУБД и как правило зачастую \textbf{предоставляют расширенные возможности, недоступные в стандартных словарях}. 
+
+    Примеры вендор-зависимых системных каталогов:
+    \begin{itemize}
+        \item PostgreSQL: \texttt{pg\_catalog} – содержит таблицы \texttt{pg\_tables}, \texttt{pg\_indexes}, \texttt{pg\_roles} (расширеные метаданные о структуре БД).
+        \item Microsoft SQL Server: \texttt{sys.*} – набор системных представлений, включающий \texttt{sys.tables}, \texttt{sys.columns}, \texttt{sys.indexes} и другие.
+        \item Oracle: \texttt{DBA\_*}, \texttt{ALL\_*}, \texttt{USER\_*} – системные представления для админов, юзеров и всех объектов бд.
+    \end{itemize}
+
+\end{enumerate}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Тип словаря} & \textbf{Пример в СУБД} & \textbf{Совместимость} \\
+        \hline
+        Стандартный & INFORMATION\_SCHEMA & Высокая (MySQL, SQL Server, PostgreSQL) \\
+        \hline
+        Вендор-зависимый & pg\_catalog (PostgreSQL) & Ограниченная (только PostgreSQL) \\
+        \hline
+        Вендор-зависимый & sys.* (SQL Server) & Только Microsoft SQL Server \\
+        \hline
+        Вендор-зависимый & DBA\_* (Oracle) & Только Oracle DB \\
+        \hline
+    \end{tabular}
+    \caption{Стандартные и вендор-зависимые словари данных}
+    \label{tab:data_dictionary_comparison}
+\end{table}
+
+Ну то есть суть в том, что использование вендор-зависимых требует всяких специфических знаний конкретной платформы.
+
+Итак, перейдем к рассмотрению указанных ранее пунктов:
+
+\paragraph{Основные объекты, хранящиеся в словаре данных} ~\\
+
+\begin{enumerate}
+
+    \item Таблицы и их атрибуты \autocites[§51.11]{PostgreSQLdocc51}[§28.3.38]{Mysqldoc1}{MicrosoftLearnSQLserver}
+
+    Одним из основных компонентов словаря данных является информация о таблицах и их атрибутах. В реляционной модели данные организованы в виде таблиц, и их структура должна быть четко определена и документирована.
+
+    \begin{enumerate}
+        \item Метаданные о таблицах
+
+        \begin{itemize}
+            \item Название таблицы (\texttt{table\_name})
+            \item Схема (пространство имен) (\texttt{schema\_name})
+            \item Тип таблицы (обычная, временная, внешняя и т. д.)
+            \item Дата создания и последнего изменения
+            \item Физическое расположение таблицы (табличное пространство, файловая группа)
+            \item Овнер таблицы (создатель)
+            \item Размер таблицы (количество строк, объем занимаемого пространства на диске)
+        \end{itemize}
+
+        Пример SQL-запроса (PostgreSQL, получение информации о таблицах):
+        \begin{lstlisting}[language=SQL]
+        SELECT schemaname, tablename, tableowner, tablespace 
+        FROM pg_tables;
+        \end{lstlisting}
+
+        Примеры расположения метаданных о таблицах в разных СУБД:
+        \begin{itemize}
+            \item PostgreSQL: \texttt{pg\_class}, \texttt{pg\_tables}
+            \item MySQL: \texttt{INFORMATION\_SCHEMA.TABLES}
+            \item SQL Server: \texttt{sys.tables}
+            \item Oracle: \texttt{ALL\_TABLES}, \texttt{USER\_TABLES}, \texttt{DBA\_TABLES}
+        \end{itemize}
+
+        \item Атрибуты (столбцы) таблиц
+    
+        Кроме информации о таблице в целом, важно хранить сведения о ее столбцах и их свойствах:
+        
+        \begin{itemize}
+            \item Имя столбца (\texttt{column\_name})
+            \item Тип данных (\texttt{VARCHAR}, \texttt{INTEGER}, \texttt{BOOLEAN} и т. д.)
+            \item Размерность данных (\texttt{length}, \texttt{precision}, \texttt{scale})
+            \item Значение по умолчанию
+            \item Является ли столбец автоинкрементным (\texttt{SERIAL}, \texttt{IDENTITY} и т. д.)
+            \item Описание (комментарий к столбцу, если поддерживается СУБД)
+        \end{itemize}
+
+        Пример SQL-запроса (MySQL, получение информации о столбцах таблицы):
+        \begin{lstlisting}[language=SQL]
+        SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE 
+        FROM INFORMATION_SCHEMA.COLUMNS 
+        WHERE TABLE_NAME = 'employees';
+        \end{lstlisting}
+    \end{enumerate}
+    
+    \item Индексы \autocites[§51.26]{PostgreSQLdocc51}[§52.11]{PostgreSQLdocc52}[§28.3.34]{Mysqldoc1}{MicrosoftLearnSQLserverInd}
+
+    Индексы важны в плане повышения производительности запросов. Они позволяют ускорить поиск данных, но увеличевают объем занимаемого дискового пространства.
+
+    В словаре данных хранятся метаданные о индексах:
+    \begin{itemize}
+        \item Название индекса
+        \item Тип индекса (\texttt{B-Tree}, \texttt{Hash}, \texttt{GIN}, \texttt{Full-text})
+        \item Таблица, к которой индекс относиться
+        \item Столбцы, использованные для индексации
+        \item Параметры индекса (уникальность, сортировка, частичность)
+        \item Статистика использования индекса (сколько раз использовался, степень фрагментации)
+    \end{itemize}
+
+    Примеры росположения индексов в разных СУБД:
+    \begin{itemize}
+        \item PostgreSQL: \texttt{pg\_index}, \texttt{pg\_class}, \texttt{pg\_indexes}
+        \item MySQL: \texttt{INFORMATION\_SCHEMA.STATISTICS}
+        \item SQL Server: \texttt{sys.indexes}, \texttt{sys.index\_columns}
+        \item Oracle: \texttt{DBA\_INDEXES}, \texttt{USER\_INDEXES}
+    \end{itemize}
+
+    Пример SQL-запроса (Oracle, получение информации об индексах таблицы):
+    \begin{lstlisting}[language=SQL]
+    SELECT INDEX_NAME, TABLE_NAME, UNIQUENESS, STATUS 
+    FROM DBA_INDEXES 
+    WHERE TABLE_NAME = 'EMPLOYEES';
+    \end{lstlisting}
+
+    \item Ограничения целостности \autocites[§51.13]{PostgreSQLdocc51}[§28.3.42]{Mysqldoc1}{MicrosoftLearnSQLserverTab}
+
+    Они служат для обиспечения корректности данных в таблицах
+
+    Хранимая информация:
+    \begin{itemize}
+        \item Тип ограничения (\texttt{PRIMARY KEY} (опреденяет основной ключ таблицы), \texttt{FOREIGN KEY} (обиспечивает ссылочную целостность), \texttt{CHECK} (накл. ограничения на знач. столбцов), \texttt{UNIQUE} (гарантироет уникальность значений в таблице), \texttt{NOT NULL} (запрет хранить NULL в столбце))
+        \item Целевая таблица (на которую наклыдвается ограничение целостности) и столбцы
+        \item Дейстия при удалении илии обновлении (\texttt{ON DELETE CASCADE}, \texttt{ON UPDATE SET NULL})
+    \end{itemize}
+
+    Примеры разположения метаданных об ограничениях в разных СУБД:
+    \begin{itemize}
+        \item PostgreSQL: \texttt{pg\_constraint}
+        \item MySQL: \texttt{INFORMATION\_SCHEMA.KEY\_COLUMN\_USAGE}, \texttt{INFORMATION\_SCHEMA.TABLE\_CONSTRAINTS}
+        \item SQLServer: \texttt{sys.foreign\_keys}, \texttt{sys.check\_constraints}, \texttt{sys.key\_constraints}
+        \item Oracle: \texttt{ALL\_CONSTRAINTS}, \texttt{USER\_CONSTRAINTS}, \texttt{DBA\_CONSTRAINTS}
+    \end{itemize}
+
+    Пример SQL-запроса (PostgreSQL, получение ограничений таблицы):
+    \begin{lstlisting}[language=SQL]
+    SELECT conname, contype, conrelid::regclass AS table_name 
+    FROM pg_constraint 
+    WHERE conrelid = 'employees'::regclass; 
+    \end{lstlisting}
+
+    Пример SQL-запроса (MySQL, ограничение \texttt{UNIQUE} на \texttt{email} в таблице \texttt{users}):
+    \begin{lstlisting}[language=SQL]
+    ALTER TABLE users
+    ADD CONSTRAINT unique_email UNIQUE (email);    
+    \end{lstlisting}
+
+    Пример SQL-запроса (PostgreSQL, ограничение \texttt{FOREIGN KEY} для \texttt{orders.customer\_id}, ссылающееся на \texttt{customers.id}):
+    \begin{lstlisting}[language=SQL]
+    ALTER TABLE orders
+    ADD CONSTRAINT fk_customer FOREIGN KEY (customer_id)
+    REFERENCES customers(id) ON DELETE CASCADE;
+    \end{lstlisting}
+
+    \item Пользователи и их правами \autocite{MicrosoftLearnSQLserverPerm, oracledbdoc3}
+
+    Для управления доступов к БД в словарке данных хранится информация о прльзователях и их привилегиях и ролях:
+    \begin{itemize}
+        \item Список всех пользователей СУБД (\texttt{user\_name} пользователей)
+        \item Назначенные роли (\texttt{DBA}, \texttt{PUBLIC}, \texttt{SUPERUSER})
+        \item Гранты привилегий на обьекты (\texttt{SELECT}, \texttt{INSERT}, \texttt{UPDATE}, \texttt{DELETE})
+    \end{itemize}
+
+    Примеры расположения метаданные о пользоватеях в разных СУБД:
+
+    \begin{itemize}
+        \item PostgreSQL: \texttt{pg\_roles}, \texttt{pg\_authid}
+        \item MySQL: \texttt{mysql.user}, \texttt{INFORMATION\_SCHEMA.USER\_PRIVILEGES}
+        \item SQLServer: \texttt{sys.database\_principals}, \texttt{sys.database\_role\_members}
+        \item Oracle: \texttt{DBA\_USERS}, \texttt{ALL\_USERS}, \texttt{USER\_USERS}
+    \end{itemize}
+
+    Пример SQL-запроса (PostgreSQL):
+    \begin{lstlisting}[language=SQL]
+    SELECT rolname, rolsuper, rolcreatedb, rolcanlogin 
+    FROM pg_roles;             
+    \end{lstlisting}
+
+    Пример SQL-запроса (SQL Server, получение списка пользователей и их ролей):
+    \begin{lstlisting}[language=SQL]
+    SELECT name, type_desc 
+    FROM sys.database_principals 
+    WHERE type IN ('S', 'U');              
+    \end{lstlisting}
+
+\end{enumerate}
+
+\paragraph{Метаданные о транзакциях} ~\\
+
+\begin{grayquote}
+    \textbf{Транзакция} - это исполняемая программа, включающая в себя определенные операции с базой данных, такие как чтение из базы данных, применение вставок, удалений или обновлений к базе данных \autocite{ElmasriNavathe}
+\end{grayquote}
+
+Основной смысл транзакций заключается в в объединении нескольких операций в одно неделимое действие. Промежуточные состояния между шагами транзакции невидимы для других параллельно выполняющихся транзакций. Если происходит сбой, не позволяющий транзакции завершиться, то никакие изменения базу данных не затрагивают — все шаги откатываются. \autocite{PostgreSQLdocc3p4}
+
+Соответственно, \textbf{метаданные о транзакциях} — это информация, фиксируемая СУБД в процессе выполнения транзакций. Они позволюят отслеживать историю изменений, анализтровать работу БД и обеспечивать контроль целостности данных. В словаре данных хранятся в виде специальных системных таблиц и представлений, которые содержат информацию о выполняемых операциях, механизах блокировок, истории SQL-запросов.
+
+\subparagraph{Журнылы операций} ~\\
+
+\textbf{Журналы операций} фиксируют информацию о транзацкиях выполняемых в СУБЬД чтобы их можно было было восстановить в случае сбоя (сделать \texttt{ROLLBACK}). Они являются основным источником информации о транзакциях в СУБД. Они фиксируют:
+\begin{itemize}
+    \item Время начала и завершения транзакции
+    \item ID транзакции
+    \item Тип выполняемой операции (INSERT, UPDATE, DELETE, DDL-операции)
+    \item Пользователя, выполнявшего операцию
+    \item Затронутые (повергнувшиеся изменению) таблицы и строки
+    \item Использованные механизмы блокировок
+\end{itemize}
+
+Юзаются они как уже было сказано для отката изменений (\texttt{ROLLBACK}).
+Вот как это реализовано в различных СУБД:
+
+\begin{itemize}
+    \item PostgreSQL: Журналы транзаций хранятся в WAL (Write-Ahead Logging), а информация о транзакциях пишется в \texttt{pg\_xact} и \texttt{pg\_commit\_ts} \autocite{PostgreSQLdocc28}.
+    \item MySQL использует бинарные логи (Binary Log, binlog), который фиксирует события для репликации и востановления. \autocite{Mysqldoc3}. Также есть штука \texttt{performance\_schema.events\_transactions}, которая фиксирует события связанные с выполнением транзакций и хранящяя подробную инфу о них (ID, состояния, временные метки начала и конца, статистику) \autocite{Mysqldoc2}. То есть binlog фиксирует изменения данных для цели репликации, восстановления, а эта штука используется для мониторинга работы транзакций в реальном времени, но не предназначена для восстановления данных. 
+    \item SQL Server: журнал транзакций (Transaction Log), \texttt{sys.dm\_tran\_active\_transactions} \autocite{MicrosoftLearnSQLserverTransLog}.
+    \item Oracle: журналы восстановления (Redo Logs), \texttt{V\textdollar TRANSACTION}, \texttt{V\textdollar LOG} \autocite{OracleRedoLog}.
+\end{itemize}
+
+Пример запроса (PostgreSQL, просмотр текущего состояния WAL-журнала. Как итог получаем текущий LSN (Log Sequence Number) в WAL-журнале. LSN указывает до какого момента были записаны изменения в ужрнале транзакций):
+\begin{lstlisting}[language=SQL]
+    SELECT * FROM pg_current_wal_lsn();                
+\end{lstlisting}
+
+Пример запроса (MySQL, простотр 10 последних записанных в журнал транзакций событий записанных в бинлог):
+\begin{lstlisting}[language=SQL]
+    SHOW BINLOG EVENTS IN 'mysql-bin.000001' LIMIT 10;           
+\end{lstlisting}
+
+\subparagraph{История выполнения SQL-запросов} ~\\
+
+Также многие СУБД ведут \textbf{историю выполненных SQL-запросов}. Она используется для анализа работы системы, поиска узких мест в производительности, аудит безопасности. 
+
+Реализация следующяя:
+\begin{itemize}
+    \item PostgreSQL: история запросов хранится в \texttt{pg\_stat\_statements} \autocite{PgStatStatements1}
+    \item MySQL: используются \texttt{general\_log} и \texttt{slow\_query\_log} \autocite{Mysqldoc3}
+    \item SQL Server: представление \texttt{sys.dm\_exec\_query\_stats} \autocite{MicrosoftLearnSQLserverQueryStat}
+    \item Oracle: динамические представления \texttt{V\textdollar SQL}, \texttt{V\textdollar SQLAREA} \autocite[c.9 §46-49, c.9 §71]{oracledbdoc2}
+\end{itemize}
+
+Пример запроса (PostgreSQL, выводит 5 самых долгих рисурсоемких запросов):
+\begin{lstlisting}[language=SQL]
+    SELECT query, calls, total_exec_time 
+    FROM pg_stat_statements 
+    ORDER BY total_exec_time DESC 
+    LIMIT 5;                 
+\end{lstlisting}
+
+Пример запроса (Oracle, \texttt{V\textdollar SQLAREA}, выборка последних запросов с частотой их выполнения и затратами ресурсов (10 штук запросов)):
+\begin{lstlisting}[language=SQL]
+    SELECT sql_text, executions, 
+        elapsed_time / executions AS avg_exec_time, 
+        disk_reads, buffer_gets 
+    FROM V$SQLAREA 
+    WHERE executions > 0 
+    ORDER BY first_load_time DESC 
+    FETCH FIRST 10 ROWS ONLY;
+\end{lstlisting}
+
+\subparagraph{Информация о блокировакх и параллельном доступе} ~\\
+
+Монгопользоательский доступ требуеи механизмов блркировок для отсутствия ситуации когда происходит одновременная модификация одних и техже данных разными транзакциями. В словаре данных фиксируется информация о:
+\begin{itemize}
+    \item Активных блокировках (\texttt{SHARE}, \texttt{EXCLUSIVE})
+    \item Процессах, ожидающих снятия блокировок
+    \item Возникших взаимоблокировках (deadlocks)
+    \item Длительности удержания блокировки
+    \item Таблицах и строках, находящихся в блокировке
+\end{itemize}
+
+На практике реализоввано следующим образом:
+\begin{itemize}
+    \item PostgreSQL: Информация о блокировках содержится в \texttt{pg\_locks} и \texttt{pg\_stat\_activity} \autocites[§52.12]{PostgreSQLdocc52}[§27.2.3]{PostgreSQLdocc27}
+    \item MySQL: \texttt{performance\_schema.metadata\_locks} \autocite[§29.12.13]{Mysqldoc2}
+    \item SQL Server: используется представление \texttt{sys.dm\_tran\_locks} \autocite{MicrosoftLearnSQLserverTranLocks}
+    \item Oracle: блокировки отслеживаются \texttt{V\textdollar LOCK}, \texttt{DBA\_BLOCKERS}, \texttt{DBA\_WAITERS} \autocites[c.8 §40]{oracledbdoc2}[c.4 §180, c.6 §103]{oracledbdoc1}
+\end{itemize}
+
+Пример запроса (PostgreSQL, поиск процессов ожидающих блокировки):
+\begin{lstlisting}[language=SQL]
+    SELECT pid, relation::regclass AS locked_table, mode, granted
+    FROM pg_locks
+    WHERE NOT granted;              
+\end{lstlisting}
+
+Пример запроса (SQL Server, поиск взаимоблокировок):
+\begin{lstlisting}[language=SQL]
+    SELECT blocking_session_id AS blocker, session_id AS blocked
+    FROM sys.dm_exec_requests
+    WHERE blocking_session_id IS NOT NULL;             
+\end{lstlisting}
+
+Согласно требованиям ACID (Atomic, Consistent, Isolated, Durable) транзакция должна быть устойчивой. После своего завершения она сохраняется в системе, которую ничто не может вернуть в исходное (до начала транзакции) состояние, т. е. происходит фиксация транзакции (\texttt{COMMIT}), означающая, что ее действие постоянно даже при сбое системы. При выполнении отдельных операций транзакции могут быть нарушены какие-либо требования целостности данных (в первую очередь имеются в виду корпоративные правила целостности, см. главу 2). Однако по окончании выполнения транзакции (фиксация транзакции) все правила целостности базы данных будут соблюдены.
+
+В большинстве реляционных СУБД фиксация сначала записывает изменения в журнал транзакций (например, WAL или Binary Log), а затем применяет их к основным данным. Это позволяет минимизировать потери в случае сбоя и поддерживать \texttt{ROLLBACK}, если транзакция не была завершена.
+
+Транзакция начинается с первой команды, которая обращается к данным, и продолжается до тех пор, пока не будет явного завершения с помощью \texttt{COMMIT WORK} (или просто \texttt{COMMIT}) либо не будет закрыто соединение к базе данных. Ткаже возможно явное открытие транзакии с помощью \texttt{BEGIN TRANSACTION} (\texttt{START TRANSACTION} в MySQL). При выполнении \texttt{COMMIT} происходит фиксация транзакции, и \texttt{ROLLBACK} уже будет невозможен \autocite{Pirogov2009}. Однако поведение на самом деле зависит от СУБД.
+
+Например, в PostgreSQL и MySQL разрыв соединения без \texttt{COMMIT} приводит к автоматическому \texttt{ROLLBACK}, а в SQL Server и Oracle возможны различные настройки (по умолчанию транзакция фиксируется при разрыве соединение но можно включить поведение с откатом).
+
+Пример явного управления транзакцией в PostgreSQL (демонстрация атомарности транзакции при переводе средств между мнимымии счетами):
+\begin{lstlisting}[language=SQL]
+    BEGIN;
+    UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+    UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+    COMMIT;           
+\end{lstlisting}
+
+
+\paragraph{Статистика работы СУБД} ~\\
+
+Статистика работы СУБД также представляет из себя метаданные которые фиксируют информацию о произчодительности системы, нагрузке на сервер, использовании индексов, частоте выполнения запросов. Подобного рода данные дают возможность админам анализировать производительность БД и оптимизировать систему.
+
+\subparagraph{Анализ производительности} ~\\
+
+Анализ производительности позволяет определить, какие запросы и операции замедляют работу СУБД. Для этого мониторится:
+\begin{itemize}
+    \item Использование процессора (время выполнения SQL-запросов, нагрузка на CPU)
+    \item Операции чтения/записи на диск и использование кэша
+    \item Потребление памяти (размер буферного кэша, использование индексов)
+\end{itemize}
+
+В разных СУБД следующие механизмы для анализа производительности:
+\begin{itemize}
+    \item PostgreSQL: \texttt{pg\_stat\_statements}, \texttt{pg\_stat\_activity}, \texttt{pg\_stat\_bgwriter} \autocite[§27.2]{PostgreSQLdocc27}
+    \item MySQL: \texttt{performance\_schema}, \texttt{INFORMATION\_SCHEMA.PROCESSLIST} \autocite{Mysqldoc2}
+    \item SQL Server: \texttt{sys.dm\_exec\_requests}, \texttt{sys.dm\_exec\_query\_stats} \autocite{MicrosoftLearnSQLserverSysDymView}
+    \item Oracle: \texttt{V\textdollar SYSSTAT}, \texttt{V\textdollar SESSION}, \texttt{V\textdollar SQL} \autocite[c. 9 §9.98, §9.17, §9.46]{oracledbdoc2}
+\end{itemize}
+
+Пример PostgreSQL — анализ нагрузки активных запросов. Опридиляет SQL-запросы с наибольшим временем выполнения:
+\begin{lstlisting}[language=SQL]
+    SELECT pid, query, calls, total_exec_time / calls AS avg_exec_time
+    FROM pg_stat_statements
+    ORDER BY avg_exec_time DESC
+    LIMIT 5;        
+\end{lstlisting}
+
+Другой пример (MySQL, анализ медленных запросов)
+\begin{lstlisting}[language=SQL]
+    SELECT start_time, user_host, query_time, sql_text
+    FROM mysql.slow_log
+    ORDER BY query_time DESC
+    LIMIT 5;        
+\end{lstlisting}
+
+\subparagraph{Статистика выполнения запросов} ~\\
+
+Статистические данные также использутся для оптимизации индексов (анализируется частота обращения к различным таблицам), выявления "дорогих" запросов (запросов с высокой нагрузкой на процессор или диск) и настройки кэша и оценки эффективности буферизации данных.
+
+Примеры механизмов сбора статистики запросов:
+\begin{itemize}
+    \item PostgreSQL: \texttt{pg\_stat\_statements} хранит частоту и среднее время выполнения запросов
+    \item MySQL: \texttt{performance\_schema.events\_statements\_summary\_by\_digest} агрегирует запросы по шаблону
+    \item SQL Server: \texttt{sys.dm\_exec\_query\_stats} дает инфорамцию о частоте выполнения запросов
+    \item Oracle: \texttt{V\textdollar SQLAREA} хранить статистику о выполненных запросах
+\end{itemize}
+
+Пример (SQL Server, анализ самых ресурсозатратных запросов)
+\begin{lstlisting}[language=SQL]
+    SELECT TOP 5 
+        total_logical_reads AS Reads, 
+        total_worker_time AS CPU_Time, 
+        execution_count AS Executions, 
+        text AS Query_Text 
+    FROM sys.dm_exec_query_stats qs
+    CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle)
+    ORDER BY total_worker_time DESC;
+\end{lstlisting}
+
+Пример (Oracle, последние 10 выполненных запросов, показывает частоту и среднее время выполнения)
+\begin{lstlisting}[language=SQL]
+    SELECT sql_text, executions, elapsed_time / executions AS avg_exec_time
+    FROM V$SQLAREA
+    WHERE executions > 0
+    ORDER BY first_load_time DESC
+    FETCH FIRST 10 ROWS ONLY;
+\end{lstlisting}
+
+\subparagraph{Автоматическая сборка аналитики СУБД} ~\\
+
+Некоторые (все из рассматриваемых четырех) СУБД автоматически автоматически анализируют статистику и используют её для внутренней оптимизации
+\begin{itemize}
+    \item PostgreSQL: \texttt{pg\_stat\_statements} автоматически анализирует запросы и создает план выполнения
+    \item MySQL: \texttt{performance\_schema.setup\_instruments} мониторит работу серверных процессов
+    \item SQL Server: \texttt{Query Store} хранит статистку выполнения запросов и их планы
+    \item Oracle: \texttt{V\textdollar SQL\_PLAN}, \texttt{V\textdollar SQL\_OPTIMIZER\_ENV} отслеживают параметры оптимизатора
+\end{itemize}
+
+Пример (PostgreSQL, анализ частоты выполнения запросов)
+\begin{lstlisting}[language=SQL]
+    SELECT query, calls, total_exec_time / calls AS avg_exec_time
+    FROM pg_stat_statements
+    ORDER BY calls DESC
+    LIMIT 10;
+\end{lstlisting}
+
+Пример (Oracle, анализ плана выполнения запроса)
+\begin{lstlisting}[language=SQL]
+    SELECT sql_id, plan_hash_value, executions, buffer_gets, elapsed_time
+    FROM V$SQL_PLAN
+    ORDER BY elapsed_time DESC
+    FETCH FIRST 5 ROWS ONLY;
+\end{lstlisting}
+
+\subsubsection{Физическая структура словаря данных} ~\\
+
+Здесь будет обсуждено хранение метаданные внутри файловой системы рассматриваемых СУБД. В отличие от логической структуры, которая описывает структуру и взаимосвязь данных на уровне схем и объектов БД, физическая структура это расположение системных файлов, их формат и механизмы работы с пространством на диске.
+
+\paragraph{Расположение метаданных в файловой системе} ~\\
+
+\subparagraph{PostgreSQL} \autocite{PostgreSQLdocc65} ~\\
+
+PostgreSQL хранит метаданные о БД в системных таблицах, но сами файлы с данными располагаются в каталоге PGDATA, обычно \texttt{/var/lib/postgresql/<version>/main/} (в Linux) или \texttt{C:\textbackslash{}Program Files\textbackslash{}PostgreSQL\textbackslash{}<version>\textbackslash{}data\textbackslash{}} (в Windows)
+Также основные файлы и каталоги, связаные с метаданными:
+\begin{itemize}
+    \item \texttt{pg\_catalog/} содержит системные таблицы с метаданными (\texttt{pg\_class}, \texttt{pg\_attribute}, \texttt{pg\_roles} и тд)
+    \item \texttt{pg\_xact} фиксирует состояние транзакций
+    \item \texttt{pg\_wal} - журнал предзаписи (WAL) для восстановления
+    \item \texttt{base/} - директория с данными всех баз (каждая база имеет свой подкаталок)
+\end{itemize}
+
+\subparagraph{MySQL} \autocite[§17.6]{Mysqldoc4} ~\\
+
+Используются два формата хранения метаданных: файловый и табличный.
+
+\begin{itemize}
+    \item \texttt{datadir/} - каталог где хранятся базы данных (обычно \texttt{var/lib/mysql})
+    \item \texttt{ibdata1} - общий файл хрвнилища InnoDB, там записаны метаданные 
+    \item \texttt{ib\_logfile0}, \texttt{ib\_logfile1} - файлы журнала транзакций InnoDB 
+    \item \texttt{.frm} - файлы схем таблиц (используюстя в MyISAM)
+    \item \texttt{.ibd} - файлы хранения данных и индексов для InnoDB 
+\end{itemize}
+
+\subparagraph{SQL Server} \autocite{MicrosoftLearnSQLserverMasterdb,MicrosoftLearnSQLserverTempdb,MicrosoftLearnSQLserverDBfiles,MicrosoftLearnSQLserverFileLoc} ~\\
+
+Тут метаданные хранятся в системной базе даных \texttt{master}, а физически - в файлах формата MDF (основные файлы БД) и LDF (журналы транзакций)
+
+\begin{itemize}
+    \item \texttt{\%ProgramFiles\%\textbackslash{}Microsoft SQL Server\textbackslash{}MSSQL<number>.MSSQLSERVER\textbackslash{}MSSQL\textbackslash{}DATA\textbackslash{}} - каталог с данными
+    \item \texttt{master.mdf} - основной файл БД с метаданными о сервере, содержит важные метаданные (инфу о всех базах, юзерах, настройках) 
+    \item \texttt{tempdb.mdf} - временное хранилище данных, временная база данных, для операций а-ля с сортировками и индексами
+\end{itemize}
+
+
+\subparagraph{Oracle} \autocites[§1.338]{oracledbdoc0}{oracledbdoc4}{OracleRedoLog} ~\\
+
+В Oracle для хранения метаданных используются табличные пространства (\texttt{tablespaces}) и бинарные файлы
+
+\begin{itemize}
+    \item \texttt{SYSTEM tablespace} - файл данных содержащий основный метаданные и системный каталог базы данных
+    \item \texttt{SYSAUX tablespace} - вспомогательный табличный каталог хранилище метаданных
+    \item \texttt{REDO*.log} - фыйла журналов транзакций
+    \item \texttt{spfile.ora} - бинарный файл параметорв базы данных
+    \item \texttt{V\textdollar DATAFILE}, \texttt{DBA\_TABLES} - таблицы системного словаря
+\end{itemize}
+
+\subsection{Блокировки и параллельный доступ}
+
+Этот раздел посвещен механизмам блокировок в СУБД \autocites[c.22]{ElmasriNavathe}[c. 18]{Silberschatz}. Параллельный (конкрурентный) доступ к одной и той же информции приводит к проблемам целостности данных, еси не использовать механизмы блокировок и управления транзакциями.
+
+Основные вопросы, рассматривающиеся в этой части:
+\begin{itemize}
+    \item Почему вообще возникает проблема конкурентного доступа и какие ошибки могут произойти
+    \item Какие виды блокировок существуют, и как помогают избежать конфликтов
+    \item Как разные СУБД реализуют управление блокировками
+    \item Какие вообще существуют стратегии решения конфликтов при параллельном доустпе
+\end{itemize}
+
+\subsubsection{Проблема параллельного доступа}
+
+Нынешние СУБД поддерживают многопользовательский режим работы, типа несколько пользователей или процессов могут одновременно читать и изменять данные. И параллельное выполнение операций без соответствующих механизмов синхронизации может привести к некорректному состоянию базы данных и нарушению целостности данных \autocite{ElmasriNavathe, Silberschatz}.
+Когда в базе данных одновременно выполняется несколько транзакций, свойство изоляции может больше не сохраняться. Чтобы обеспечить это, система должна контролировать взаимодействие между параллельными транзакциями. \autocite{Silberschatz}
+
+\paragraph{Основные проблемы конкурентного доступа} ~\\
+
+Конкурентный доступ может привести к следующим "аномалиям":
+\begin{enumerate}
+    \item Lost Update (Потерянное обновление) ~\\
+    Возникает, когда два процесса работают с одной и той же записью, но изменения которые сделал первый процесс, перезаписываются вторым, и тем самым перваначальные данные теряются.
+    
+    Пример (условный):
+    \begin{itemize}
+        \item Дима считывает значение \texttt{Баланс = 100}
+        \item Вася считывает то же значение \texttt{Баланс = 100}
+        \item Дима увеличивает баланс на \texttt{+50} и записывает \texttt{Баланс = 150}
+        \item Вася увеличивает баланс на \texttt{+30} (но он не шарит что Дима уже внес изменения) и записывает \texttt{Баланс = 130}
+        \item Итог: операция Димы канула в небытие, и баланс становится \texttt{130}, хотя должен быть \texttt{180}. Вот такие дела
+    \end{itemize}
+
+    \item Dirty Read (Несогласованое чтение) ~\\
+    Процесс читает данные, которые уже были изменены, но еще не были зафиксированы другой транзакцией. И если эта та транзакция откатится, то прочитанные данные окажутся недействительными (точнее, они вообще по идее "никогда и не существовали").
+    
+    Пример:
+    \begin{itemize}
+        \item Изначально есть запись \texttt{Цена товара = 100}
+        \item Транзакция A обновляет \texttt{Цена товара = 200}, но \texttt{COMMIT} еще не выполнила
+        \item Транзакция B читает это \texttt{Цена товара = 200} и что-то делает дальше
+        \item Транзакция A делает \texttt{ROLLBACK}, возвращая \texttt{Цена товара = 100}
+        \item Иток: Транзакция B использовала неверные данные
+    \end{itemize}
+
+    \item Non-repeatable Read (Неповторяющееся чтение) ~\\
+    Происходит, когда транзакция повторно читает одну и ту же строку, но получает разные значения из-за того, что другая транзакция изменила или удалила эти данные и зафиксировала изменения.
+
+    Пример:
+    \begin{itemize}
+        \item Транзакция A читает строку \texttt{id=1, balance=100} в таблице \texttt{accounts}
+        \item Транзакция B изменяет \texttt{balance} для \texttt{id=1} на 200 и выполняет \texttt{COMMIT}
+        \item Транзакция A снова читает \texttt{id=1} и получает \texttt{balance=200}, хотя в рамках одной транзакции ранее видела \texttt{balance=100}
+    \end{itemize}
+
+    \item Phantom Read (Фантомное чтение) ~\\ 
+    Явление считывания разных данных при одинаковом запросе. То есть процесс считывает набор данных (множество строк), потом делает повторный запрос, и видит новые или исчезнувшие записи из-за вмешательства (параллельного изменения этих данных) другой транзакции.
+
+    Пример:
+    \begin{itemize}
+        \item Транзакция A запрашивает список сотрудников компании удовлетворяющих условию \texttt{зарплата < 30000}
+        \item Параллельно транзакция B добавляет нового сотрудника с \texttt{зарплата = 20000} и выполняется \texttt{COMMIT}
+        \item Транзакция A повторяет запрос и получает другой набор записей
+    \end{itemize}
+
+    \item Race Condition (состояние гонки) ~\\
+    Две транзакции "конкурируют" друг с другом за обновление одних и тех же данных без надлежащей синхронизации. Подобное может приветси к непредсказуемому порядку выполнения операций и некорректным результатам.
+
+    Пример: ~\\
+    Два пользователя одновременно покупают последний товар на складе. Оба видят, что товар есть в наличии (условно, \texttt{stock = 1}), оба оформляют заказ и уменьшают \texttt{stock = 0}. Как итог база данных зафиксировала две продажи, но товар был только один. Со всеми вытекающими.
+
+\end{enumerate}
+
+\paragraph{Причины возникновения проблем параллельного доступа} ~\\
+\begin{itemize}
+    \item Использование низкого уровня изоляции транзакций (см. ниже)
+    \item Отсутствие блокировок (см. ниже)
+    \item Некорректное управление многопользовательским доступом, к примеру отключение администраторами СУБД механизмов блокировок или снижение уровня изоляции ради повышения проивзодительности
+\end{itemize}
+
+\subsubsection{Уровни изоляции транзакций}
+
+Уровни изоляции транзакций определяют, насколько одна транзакция может видеть изменения, внесенные другой транзакцией, прежде чем они будут зафиксированы в БД. Это на самом деле спорный аспект любой многопользовательской работы с БД, т.к. всегда баланс между целостностью данных и производительностью системы требует компромиссов.
+
+Стандарт SQL-92 определяет четыре уровня изоляции транзакций, каждый из которых решает определенные проблемы параллельного доступа \autocite{ElmasriNavathe, Silberschatz}:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|p{4.25cm}|p{3.25cm}|p{3cm}|}
+        \hline
+        \textbf{Уровень изоляции} & \textbf{Описание} & \textbf{Метод реализации*} & \textbf{Используется по умолчанию} \\
+        \hline
+        \textbf{READ UNCOMMITTED} & Минимальный уровень изоляции, позволяющий одной транзакции видеть изменения, внесенные другой транзакцией, даже если они ещё не зафиксированы & Отсутствие блокировок & Почти не используется \\
+        \hline
+        \textbf{READ COMMITTED} & Транзакция видит только зафиксированные другими транзакциями изменения & Блокировки на уровне строк & PostgreSQL, Oracle, SQL Server \\
+        \hline
+        \textbf{REPEATABLE READ} & Гарантирует, что в рамках одной транзакции данные останутся неизменными & Блокировка строк на чтение и изменение & MySQL (InnoDB) \\
+        \hline
+        \textbf{SERIALIZABLE} & Максимальный уровень изоляции, полностью предотвращает параллельное выполнение транзакций. То есть обеспечивает выполнение транзакций так, будто они б выполнялись последовательно & Полная блокировка таблиц или снапшоты & PostgreSQL (опционально) \\
+        \hline
+    \end{tabular}
+    \caption{Уровни изоляции транзакций и их характеристики}
+    \label{tab:isolation_levels}
+\end{table}
+ *см. ниже "Принципы работы изоляции транзакций"
+
+ Чем выше уровень изоляции, тем больше гарантирована целостность данных, но тем выше затраты на синхронизацию параллельно выполняемых транзакций
+
+\paragraph{Принципа работы изоляции транзакций} ~\\
+
+Изоляция обеспечивается засчет нескольких механизмов:
+\begin{enumerate}
+    \item Механизмы блокировок (Locks) - транзакция блокирует строки или таблицы, и другие транзакции не могут их изменять
+    \item MVCC (Multi-Version Concurrency Control) - транзакция работает с отдельными версиями строк, без блокировок
+    \item Снапшоты - механизм, при котором транзакция видит состояние БД на момент своего начала, независимо от других транзакций
+    \item Также иногда используется тема что вместо блокировок транзакции проверяют, не изменились ли данные с момента их первого чтения перед фиксацией изменений
+\end{enumerate}
+
+\paragraph{Реализация уровней изоляции в разных СУБД} ~\\
+
+Каждая СУБД реализует изоляцию по-разному \autocites[§2]{PostgreSQLdocc13}[c. 17 §7.2.1]{Mysqldoc4}{MicrosoftLearnSQLserverIsolation}{oracledbdoc5}
+
+\begin{enumerate}
+    \item \textbf{PostrgeSQL} использует MVCC, по умолчанию работает в режиме READ COMMITTED, поддерживает SERIALIZABLE через снапшоты
+    \item \textbf{MySQL} по умолчанию REPEATABLE READ, использует gap locks для защиты от фантомного чтения
+    \item \textbf{SQL Server} поддерживает READ COMMITED SNAPSHOT, позволяет измежать блокировок при чтении
+    \item \textbf{Oracle} всегда работает в READ COMMITED, SERIALIZABLE реализуется через временные блокировки
+\end{enumerate}
+
+Примеры установки уровня изоляции в разных СУБД:
+\begin{itemize}
+    \item PostgreSQL
+    \begin{lstlisting}[language=SQL]
+        SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+    \end{lstlisting}
+
+    \item MySQL
+    \begin{lstlisting}[language=SQL]
+        SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+    \end{lstlisting}
+
+    \item SQL Server
+    \begin{lstlisting}[language=SQL]
+        SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    \end{lstlisting}
+
+    \item Oracle
+    \begin{lstlisting}[language=SQL]
+        ALTER SESSION SET ISOLATION_LEVEL SERIALIZABLE;
+    \end{lstlisting}
+
+\end{itemize}
+
+\paragraph{Влияние изоляции на производительность} ~\\
+
+Логично, что выбор уровня изоляции влияет на производительность базы данных. И зависимость тут не замысловатая - чем больше блокировок, тем больше задержки. То есть обычная обратная зависимость
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Уровень изоляции} & \textbf{Количество блокировок} & \textbf{Скорость} \\
+        \hline
+        \textbf{READ UNCOMMITTED} & Минимум & Максимальная \\
+        \hline
+        \textbf{READ COMMITTED} & Средне & Высокая \\
+        \hline
+        \textbf{REPEATABLE READ} & Высокая & Средняя \\
+        \hline
+        \textbf{SERIALIZABLE} & Максимальная & Низкая \\
+        \hline
+    \end{tabular}
+    \caption{Влияние уровней изоляции на блокировки и производительность}
+    \label{tab:isolation_performance}
+\end{table}
+
+В этом плане самый адекватный вариант - READ COMMITED: адекватный баланс между скоростью и корректностью данных. SERIALIZABLE используется в каких-то прям критично важных операциях, и сильно замедляет работу системы.
+
+\subsubsection{Виды блокировок}
+
+\textit{~Coming soon}
+
+\subsubsection{Управление блокировками в СУБД}
+
+\textit{~Coming soon}
+
+\subsubsection{Разрешение конфликтов, оптимизация}
+
+\textit{~Coming soon}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \paragraph{Типы словарей данных} ~\\
 
 Существует два типа словарей данных. Активные и пассивные, они отличаются уровнем автоматической синхронизации \autocite{DataDictionary}:
@@ -232,40 +935,6 @@
     \item Привилегии и роли, предоставленные каждому пользователю;
     \item Другие общие сведения о базе данных.
 \end{itemize}
-
-\paragraph{Состав словаря} ~\\
-
-В состав словаря данных базы данных могут входить \autocite{DataDictionary}:
-
-\begin{itemize}
-    \item Списки объектов данных (имена и определения);
-    \item Свойства элемента данных (тип данных, уникальные идентификаторы, размер, допустимость значений NULL, индексы и параметр required);
-    \item ERD-диаграммы 
-        \footnote{Схема «сущность-связь» (также ERD или ER-диаграмма) — это разновидность блок-схемы, где показано, как разные «сущности» (люди, объекты, концепции и так далее) связаны между собой внутри системы.};
-    \item Диаграммы системного уровня (они же DFD-диаграммы);
-    \item Справочные данные — доступные пользователю представления, которые суммируют и отображают в удобном формате информацию из базовых таблиц словаря. Эти представления декодируют информацию базовых таблиц, представляя её в полезном виде, таком как имена пользователей или таблиц, чтобы добиться человекочитаемости данных. Большинство пользователей имеют доступ к этим представлениям вместо диаграмм системного уровня;
-    \item Бизнес-логика (например, для проверки качества данных и объектов схемы);
-\end{itemize}
-
-
-\subsection{Понятие транзакции}
-
-\begin{grayquote}
-    Последовательность действий над данными, обрабатываемая СУБД как единая операция, будем называть \textbf{транзакцией}.
-\end{grayquote}
-
-Из определения ясно, что транзакция может состоять из одной или нескольких команд языка SQL. При этом команды языка SQL могут перемежаться командами, не выполняющими непосредственно операций над данными (не читающими данные, не изменяющими данные, не изменяющими структуру данных). Таким образом, в качестве транзакции может быть выбрана любая часть программы, содержащая команды чтения или записи данных. В частности, транзакция может состоять всего из одной команды, например INSERT, или из сотен команд, изменяющих или не изменяющих данные.
-
-
-Понятие транзакции чрезвычайно емкое. Оно в действительности тесно связано с концептуальной моделью данных и всей информационной системы. Дело в том, что на уровне пользователя операции над данными носят предметный характер: начислить зарплату, уволить работника, перевести деньги на другой счет и т. п. Для выполнения таких операций часто необходимо выполнить десятки, и даже сотни команд языка SQL. Однако вся эта последовательность команд должна быть подчинена одной цели: операция уровня пользователя должна быть обязательно выполнена. Что будет, если при выполнении такой цепочки команд произойдет сбой? Как рассматривать тогда выполняемую операцию — как частично выполненную? Но как в дальнейшем система узнает, что операция была только частично выполнена, и как ее закончить? Все эти вопросы, в конце концов, и приводят к понятию \textbf{"транзакция"} \autocite{Pirogov2009}.
-
-
-\paragraph{Фиксация транзакции} ~\\
-
-Согласно требованиям ACID (Atomic, Consistent, Isolated, Durable) транзакция должна быть устойчивой. После своего завершения она сохраняется в системе, которую ничто не может вернуть в исходное (до начала транзакции) состояние, т. е. происходит фиксация транзакции, означающая, что ее действие постоянно даже при сбое системы. При выполнении отдельных операций транзакции могут быть нарушены какие-либо требования целостности данных (в первую очередь имеются в виду корпоративные правила целостности, см. главу 2). Однако по окончании выполнения транзакции (фиксация транзакции) все правила целостности базы данных будут соблюдены. \\
-
-
-Согласно стандарту транзакция начинается с первой команды, которая обращается к данным. После этого транзакция продолжается до тех пор, пока не будет выполнена команда COMMIT WORK (или просто COMMIT) либо не будет закрыто соединение к базе данных. При выполнении команды COMMIT WORK происходит фиксация транзакции, другими словами, после этой команды откат транзакции уже будет невозможен \autocite{Pirogov2009}.
 
 
 \paragraph{Прокрутки вперед и назад} ~\\
@@ -337,48 +1006,6 @@
 
 
 Если бы в СУБД не были реализованы механизмы блокирования, то при одновременном чтении и изменении одних и тех же данных несколькими пользователями могли бы возникнуть проблемы одновременного доступа.
-
-
-\paragraph{Конфликты транзакций и уровни изоляции} ~\\
-
-Уровни изоляции определяют степень, в которой транзакция должна быть изолирована от изменений данных, сделанных любой другой транзакцией в системе базы данных. Уровни изоляции отличаются разрешениями следующих конфликтов:
-
-\begin{itemize}
-    \item 
-        \textbf{Потерянное обновление (Lost Update)} — когда несколько транзакций что-то обновили в БД, но по итогам результат такой, будто отработала лишь часть транзакций. Самый опасный побочный эффект, по сути, полное отсутствие изоляции транзакций — две транзакции читают одну ячейку, записывают изменённое значение (одна вычитает стоимость мороженого, другая плату за квартиру). В итоге в ячейке значение от второй транзакции, а первой как будто и не было.
-    \item 
-        \textbf{Грязное чтение (Dirty Read)} — ситуация, когда транзакция считывает данные, которые еще не были зафиксированы. Например, транзакция 1 обновляет строку и оставляет ее незафиксированной, в то время как транзакция 2 читает обновленную строку. Если транзакция 1 откатывает изменение, транзакция 2 будет считывать данные, которые считаются никогда не существовавшими.
-    \item 
-        \textbf{Неповторяемое чтение (Non-repeatable Read)} — когда транзакция дважды считывает одну и ту же строку и каждый раз получает другое значение. Например, предположим, что транзакция T1 считывает данные. Из-за параллелизма другая транзакция T2 обновляет те же данные и фиксирует их. Теперь, если транзакция T1 повторно считывает те же данные, она получит другое значение.
-    \item 
-        \textbf{Фантомное чтение (Phantom Reads)} — когда выполняются два одинаковых запроса, но извлекаемые ими строки различаются. Например, транзакция T1 извлекает набор строк, удовлетворяющих некоторым критериям поиска. Далее транзакция T2 создает несколько новых строк, соответствующих критериям поиска для транзакции T1. Если транзакция T1 повторно выполняет инструкцию, которая считывает строки, на этот раз она получает другой набор строк. Отличие от предыдущего пункта в том, что в этом случае происходит агрегация строк, а в предыдущем происходит чтение лишь одной строки.
-\end{itemize}
-
-Основываясь на политиках разрешения перечисленных конфликтов, стандарт SQL определяет четыре уровня изоляции:
-
-\begin{itemize}
-    \item 
-        \textbf{Read Uncommitted} — это самый низкий уровень изоляции. На этом уровне одна транзакция может считывать еще не зафиксированные изменения, сделанные другими транзакциями, тем самым допуская грязное чтение. На этом уровне транзакции не изолированы друг от друга.
-    \item 
-        \textbf{Read Committed} — уровень изоляции гарантирует, что любые считанные данные фиксируются в момент их чтения. Таким образом, он не допускает грязного чтения. Транзакция удерживает блокировку чтения или записи для текущей строки и, таким образом, предотвращает ее чтение, обновление или удаление другими транзакциями.
-    \item 
-        \textbf{Repeatable Read} — транзакция удерживает блокировки чтения для всех строк, на которые она ссылается, и записывает блокировки для указанных строк для действий обновления и удаления. Поскольку другие транзакции не могут читать, обновлять или удалять эти строки, следовательно, это позволяет избежать неповторяющегося чтения.
-    \item 
-        \textbf{Serializable} — самый высокий уровень изоляции. Выполнение определяется как выполнение операций, в которых одновременно выполняемые транзакции кажутся последовательно выполняемыми \autocite{BeginningSQL}.
-\end{itemize}
-
-\begin{table}[h]
-\begin{tabularx}{\textwidth}{|X|X|X|X|X|}
-    \hline
-                     & Фантомное чтение         & Неповторяющееся чтение   & Грязное чтение           & Потерянное обновление    \\ \hline
-    Serializable     & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} \\ \hline
-    Repeatable Read  & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} \\ \hline
-    Read Committed   & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{32CB00} & \cellcolor[HTML]{32CB00} \\ \hline
-    Read Uncommitted & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{FE0000} & \cellcolor[HTML]{32CB00} \\ \hline
-\end{tabularx}
-\caption{Уровни изоляции транзакций}
-\end{table}
-
 
 \paragraph{Методы сериализации транзакций} ~\\
 
