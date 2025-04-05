@@ -225,16 +225,20 @@ ASD\_Views –  это модель, использующая представл
 используются разрешения grant и revoke. Список операции с базой данных: SELECT, UPDATE, INSERT и DELETE. 
 Разрешение на операцию SELECT позволяет пользователю извлекать строки из представления. 
 Разрешения на другие операции действуют аналогично. Рассмотрим пример:
-\begin{center}
-    GRANT DELETE ON inventory TO maintenance\_support.
-\end{center}
+\begin{lstlisting}[]
+    GRANT DELETE
+    ON inventory
+    TO maintenance_support;
+\end{lstlisting}
 В данном примере мы даем разрешение группе maintenance\_support на удаление строк из таблицы inventory. 
 Операцию GRANT может использовать только SSO.
 
 В модели ASD\_Views разрешения отдельных пользователей имеют приоритет над групповыми. Например:
-\begin{center}
-    DENY DELETE ON inventory TO marvin.
-\end{center}
+\begin{lstlisting}[]
+    DENY DELETE
+    ON inventory
+    TO marvin;
+\end{lstlisting}
 В данном случае пользователю marvin будет запрещено удаление строк из таблицы inventory, 
 даже если он состоит в группе maintenance\_support.
 
