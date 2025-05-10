@@ -64,8 +64,10 @@
 }
 
 @online{DDBMSIndusEdition,
+    author  = {{tutorialspoint}},
+    title   = {{Distributed DBMS - Distributed Databases}},
     url     = {https://www.tutorialspoint.com/distributed_dbms/distributed_dbms_databases.htm},
-    urldate = {2022-06-13}
+    urldate = {2025-03-15}
 }
 
 @online{bmstu,
@@ -77,8 +79,16 @@
 }
 
 @online{dce,
+    author  = {{IBM}},
+    title   = {{What is DCE?}},
     url     = {https://www.ibm.com/docs/en/cics-ts/5.3?topic=SSGMCP_5.3.0/com.ibm.cics.ts.doc/dfhtm/topics/dfhtm0a.html},
-    urldate = {2022-06-14}
+    urldate = {2025-03-15}
+}
+
+@online{Consensus,
+    title   = {{Кот Шрёдингера без коробки: проблема консенсуса в распределённых системах}},
+    url     = {https://habr.com/ru/companies/dododev/articles/463469/},
+    urldate = {2025-05-05}
 }
 
 @book{WebServices,
@@ -88,11 +98,79 @@
     isbn    = {978-3-662-10876-5}
 }
 
+@book{Tanenbaum,
+    author  = {Таненбаум Э. and Стеен М.},
+    title   = {Распределенные системы. Принципы и парадигмы},
+    year    = {2003},
+    isbn    = {5-272-00053-65-272-00053-6}
+}
+
+@article{Fischer1985,
+    author = {M. Fischer and N. Lynch and M. Paterson},
+    journal = {Journal of the ACM, vol. 32, no. 2},
+    year = {1985},
+    title = {Impossibility of Distributed Consensus with One Faulty Process},
+    pages = {374--382}
+}
+
+@article{Brewer2012,
+    author = {E. Brewer},
+    journal = {Computer, vol. 45, no. 2},
+    year = {2012},
+    title = {CAP Twelve Years Later: How the "Rules" Have Changed},
+    pages = {23--29}
+}
+
+@inproceedings{Castro1999,
+    author = {M. Castro and B. Liskov},
+    title = {Practical Byzantine Fault Tolerance},
+    booktitle = {Proceedings of the 3rd Symposium on Operating Systems Design and Implementation (OSDI'99)},
+    year = {1999},
+    pages = {173--186}
+}
+
+@book{Fix,
+    author  = {{С. Л. Бабичев, К. А. Коньков}},
+    title   = {Распределенные системы : учебник для вузов},
+    year    = {2019},
+    isbn    = {978-5-534-11380-8}
+}
+
 @online{infosec,
     author = {{В. Ю. Статьев, В.А. Тиньков}},
     title = {{Информационная безопасность распределенных информационных систем}},
     url = {http://emag.iis.ru/arc/infosoc/emag.nsf/BPA/9191949adeb83654c32575be0039f17c},
     urldate = {2020-04-20}
+}
+
+@online{TPM,
+    title = {{Architecture of an application system that uses a TP monitor}},
+    url = {https://web.archive.org/web/20161205210910/http://www.hypergurl.com/blog/databases/architecture-tp-monitor.html},
+    urldate = {2025-03-20}
+}
+
+@online{PBFT,
+    title = {{ResilientDB - PBFT Commit Algorithm}},
+    url = {https://blog.resilientdb.com/2021/08/21/PBFT_Commit.html},
+    urldate = {2025-03-31}
+}
+
+@book{BFT-2PC,
+    author  = {{Meng Yu, Peng Liu, Wanyu Zang}},
+    title   = {INTRUSION MASKING FOR DISTRIBUTED ATOMIC OPERATIONS},
+    url    = {https://link.springer.com/content/pdf/10.1007/978-0-387-35691-4_20.pdf}
+}
+
+@online{3PC,
+    title = {{Three Phase Commit Protocol}},
+    url = {https://www.geeksforgeeks.org/three-phase-commit-protocol/},
+    urldate = {2025-03-31}
+}
+
+@online{PoS_PoW,
+    title = {{Алгоритмы Proof of Work и Proof of Stake}},
+    url = {https://fin-plan.org/blog/algoritmy-proof-of-work-pow-i-proof-of-stake-pos},
+    urldate = {2025-04-7}
 }
 
 @online{PostrgreSQL,
@@ -848,7 +926,7 @@
 @online{4studClntSrv,
 	title = {{Компоненты сетевого приложения. Клиент-серверное взаимодействие и роли серверов.}},
 	url = {http://www.4stud.info/networking/lecture5.html},
-	urldate = {2024-06-12}
+	urldate = {2025-03-15}
 }
 
 @article{DistrDBThreats,
@@ -868,19 +946,19 @@
 @online{TransactionMonitors,
 	title = {{Системы управления базами данных — коротко о главном}},
 	url = {https://www.jetinfo.ru/sistemy-upravleniya-bazami-dannyh-korotko-o-glavnom-chast-3/},
-	urldate = {2024-06-12}
+	urldate = {2025-03-20}
 }
 
 @online{FixProtocols,
 	title = {{Распределенная СУБД — протоколы коммитов}},
 	url = {https://coderlessons.com/tutorials/akademicheskii/izuchite-raspredelennuiu-subd/raspredelennaia-subd-protokoly-kommitov},
-	urldate = {2024-06-12}
+	urldate = {2025-03-21}
 }
 
 @online{SecureFix,
 	title = {{Вопросы разграничения доступа к данным в СУБД}},
 	url = {https://koapp.narod.ru/tehlit/base/bd/dbms.htm},
-	urldate = {2024-06-12}
+	urldate = {2025-04-7}
 }
 
 @article{PhysLogPeplic,
@@ -944,6 +1022,7 @@
     title = {{Криптографические методы защиты информации. Учебное пособие.}},
     author = {{Владимиров С. М., Габидулин Э. М., Колыбельников А. И., Кшевецкий А. С.}},
     publisher = {{М.: МФТИ}},
+    url = {https://github.com/vlsergey/infosec/releases},
     ISBN = {{978-5-7417-0615-2}},
     year = 2016
 }
@@ -1164,14 +1243,119 @@
     url={https://www.postgresql.org/docs/current/catalogs.html}
 }
 
+@online{PostgreSQLdocc52,
+    title={PostgreSQL Documentation. Chapter 52. System views},
+    url={https://www.postgresql.org/docs/current/views.html},
+		urldate={2025-04-21}
+}
+
+@online{PostgreSQLdocc3p4,
+    title={PostgreSQL Documentation. Chapter 3. Advanced Features. P.3.4. Transactions},
+    url={https://www.postgresql.org/docs/current/tutorial-transactions.html},
+		urldate={2025-04-21}
+}
+
+@online{PostgreSQLdocc27,
+    title={PostgreSQL Documentation. Chapter 27. Monitoring Database Activity},
+    url={https://www.postgresql.org/docs/current/monitoring.html},
+		urldate={2025-04-21}
+}
+
+@online{PostgreSQLdocc28,
+    title={PostgreSQL Documentation. Chapter 28. Reliability and the Write-Ahead Log. Part III. Server Administration},
+    url={https://www.postgresql.org/docs/current/wal.html},
+		urldate={2025-04-21}
+}
+
+@online{PostgreSQLdocc65,
+    title={PostgreSQL Documentation. Chapter 65. Database Physical Storage},
+    url={https://www.postgresql.org/docs/current/storage.html},
+		urldate={2025-04-21}
+}
+
+@online{PostgreSQLdocc13,
+    title={PostgreSQL Documentation. Chapter 13. Concurrency Control},
+    url={https://www.postgresql.org/docs/current/mvcc.html},
+		urldate={2025-04-21}
+}
+
+@online{PostgreSQLdocc19,
+    title={PostgreSQL Documentation. Chapter 19. Server Configuration},
+    url={https://www.postgresql.org/docs/current/runtime-config.html},
+		urldate={2025-04-21}
+}
+
+@online{PostgreSQLlockh1,
+    title={PostgreSQL Source Code. lock.h},
+    url={https://doxygen.postgresql.org/lock_8h_source.html},
+		urldate={2025-04-21}
+}
+
+@online{PostgreSQLlockh2,
+    title={PostgreSQL Source Code. lock.h File Reference},
+    url={https://doxygen.postgresql.org/lock_8h.html},
+		urldate={2025-04-21}
+}
+
+@online{PostgreSQLlockc1,
+    title={GitHub PostgreSQL. lock.c},
+    url={https://github.com/postgres/postgres/blob/master/src/backend/storage/lmgr/lock.c},
+		note={commit: 51a0382e8d8793b5cc89b69285e5ecdffe03c2bf},
+		urldate={2025-04-21}
+}
+
+@online{PostgreSQLlockc2,
+    title={PostgreSQL Source Code. lock.c File Reference},
+    url={https://doxygen.postgresql.org/lock_8c.html},
+		urldate={2025-04-21}
+}
+
+@online{PgStatStatements1,
+    title={PostgreSQL Documentation. Appendix F. F.30.},
+    url={https://www.postgresql.org/docs/current/pgstatstatements.html},
+		urldate={2025-04-21}
+}
+
+@online{PgReference1,
+    title={PostgreSQL Documentation. Reference. SQL Commands},
+    url={https://www.postgresql.org/docs/current/sql-commands.html},
+		urldate={2025-04-21}
+}
+
 @online{HabrDataOrgp1,
     title={PostgreSQL 16. Организация данных. Часть 1},
-    url={https://habr.com/ru/articles/813781/}
+    url={https://habr.com/ru/articles/813781/},
+		urldate={2025-04-21}
 }
 
 @online{Mysqldoc1,
-    title={MySQL Documentation. Глава 28},
-    url={https://dev.mysql.com/doc/refman/8.4/en/information-schema.html}
+    title={MySQL 8.0 Reference Manual. Chapter 28},
+    url={https://dev.mysql.com/doc/refman/8.0/en/information-schema.html},
+		urldate={2025-04-21}
+}
+
+@online{Mysqldoc2,
+    title={MySQL 8.0 Reference Manual. Chapter 29},
+    url={https://dev.mysql.com/doc/refman/8.0/en/performance-schema.html},
+		urldate={2025-04-21}
+}
+
+@online{Mysqldoc3,
+    title={MySQL 8.0 Reference Manual. MySQL Server Logs},
+    url={https://dev.mysql.com/doc/refman/8.0/en/binary-log.html},
+		urldate={2025-04-21}
+}
+
+@online{Mysqldoc4,
+    title={MySQL 8.0 Reference Manual. Chapter 17},
+    url={https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html},
+		urldate={2025-04-21}
+}
+
+@online{Mysqldoc5,
+    title={MySQL 8.0 Reference Manual. Chapter 15},
+    url={https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html},
+		urldate={2025-04-21}
 }
 
 @online{YTcoursepostgre,
@@ -1184,9 +1368,20 @@
     url={https://intuit.ru/studies/curriculums/14658/courses/165/lecture/4530}
 }
 
+@online{IntuitThreats,
+    title={Основы информационной безопасности. Лекция 3: Наиболее распространенные угрозы},
+    url={https://intuit.ru/studies/courses/10/10/lecture/300},
+		urldate={2025-04-21}
+}
+
 @online{HabrTsql,
     title={Исследуем базы данных с помощью T-SQL},
     url={https://habr.com/ru/articles/241079/}
+}
+
+@online{HabrCloudThreats,
+    title={Угрозы облачных вычислений и методы их защиты},
+    url={https://habr.com/ru/articles/183168/}
 }
 
 @online{professorweb,
@@ -1195,8 +1390,93 @@
 }
 
 @online{MicrosoftLearnSQLserver,
-    title={Представления системного каталога (Transact-SQL)},
+    title={Microsoft SQL Server. Представления системного каталога (Transact-SQL)},
     url={https://learn.microsoft.com/ru-ru/sql/relational-databases/system-catalog-views/catalog-views-transact-sql?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverInd,
+    title={Microsoft SQL Server. Indexes},
+    url={https://learn.microsoft.com/en-us/sql/relational-databases/indexes/indexes?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverSysDymView,
+    title={Microsoft SQL Server. System dynamic management views},
+    url={https://learn.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/system-dynamic-management-views?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverTab,
+    title={Microsoft SQL Server. Tables},
+    url={https://learn.microsoft.com/en-us/sql/relational-databases/tables/tables?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverPerm,
+    title={Microsoft SQL Server. Get started with Database Engine permissions},
+    url={https://learn.microsoft.com/en-us/sql/relational-databases/security/authentication-access/getting-started-with-database-engine-permissions?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverTransLog,
+    title={Microsoft SQL Server. The transaction log},
+    url={https://learn.microsoft.com/en-us/sql/relational-databases/logs/the-transaction-log-sql-server?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverQueryStat,
+    title={Microsoft SQL Server.},
+    url={https://learn.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-query-stats-transact-sql?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverTranLocks,
+    title={Microsoft SQL Server.},
+    url={https://learn.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-tran-locks-transact-sql?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverMasterdb,
+    title={Microsoft SQL Server. Master database},
+    url={https://learn.microsoft.com/en-us/sql/relational-databases/databases/master-database?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverTempdb,
+    title={Microsoft SQL Server. tempdb database},
+    url={https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverDBfiles,
+    title={Microsoft SQL Server. Database files and filegroups},
+    url={https://learn.microsoft.com/en-us/sql/relational-databases/databases/database-files-and-filegroups?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverFileLoc,
+    title={Microsoft SQL Server. File locations..},
+    url={https://learn.microsoft.com/en-us/sql/sql-server/install/file-locations-for-default-and-named-instances-of-sql-server?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverIsolation,
+    title={Microsoft SQL Server. Set transaction isolation},
+    url={https://learn.microsoft.com/en-us/sql/t-sql/statements/set-transaction-isolation-level-transact-sql?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverTabHints,
+    title={Microsoft SQL Server. Table hints},
+    url={https://learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverTransLock,
+    title={Microsoft SQL Server. Transaction locking and row versioning guide},
+    url={https://learn.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide?view=sql-server-ver16}
+}
+
+@online{MicrosoftLearnSQLserverSetLockTout,
+    title={Microsoft SQL Server. SET LOCK TIMEOUT},
+    url={https://learn.microsoft.com/en-us/sql/t-sql/statements/set-lock-timeout-transact-sql?view=sql-server-ver16}
+}
+
+@online{OracleRedoLog,
+    title={Oracle Database Administrator's Guide 11g Release 2 (11.2). What Is the Redo Log?},
+    url={https://docs.oracle.com/cd/E18283_01/server.112/e17120/onlineredo001.htm}
+}
+
+@online{oracledbdoc0,
+    title={Oracle Database Reference. Part I Initialization Parameters},
+    url={https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/initialization-parameters-2.html}
 }
 
 @online{oracledbdoc1,
@@ -1208,3 +1488,151 @@
     title={Oracle Database Reference. Part III Dynamic Performance Views},
     url={https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/dynamic-performance-views.html}
 }
+
+@online{bdufstec,
+    url={https://bdu.fstec.ru/threat},
+    year = 2025,
+    urldate = {2025-04-29}
+}
+
+@techreport{fstec17,
+  title       = {Приказ ФСТЭК России от 11.02.2013 N 17 (ред. от 28.08.2024) "Об утверждении Требований о защите информации, не составляющей государственную тайну, содержащейся в государственных информационных системах" (Зарегистрировано в Минюсте России 31.05.2013 N 28608)},
+  institution = {ФЕДЕРАЛЬНАЯ СЛУЖБА ПО ТЕХНИЧЕСКОМУ И ЭКСПОРТНОМУ КОНТРОЛЮ (ФСТЭК РОССИИ)},
+  url={https://www.consultant.ru/document/cons_doc_LAW_147084/}
+}
+
+@online{oracledbdoc3,
+    title={Oracle Database Security Guide. Part II Managing Security for Oracle Database Users},
+    url={https://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/managing-security-for-oracle-database-users.html#GUID-8C779885-01F2-48E0-9612-E33508885B19}
+}
+
+@online{oracledbdoc4,
+    title={Oracle Database Installation Guide. Ch.9. Getting started with Oracle Database. Identifying Tablespaces and Data Files},
+    url={https://docs.oracle.com/en/database/oracle/oracle-database/19/ntdbi/identifying-tablespaces-and-data-files.html}
+}
+
+@online{oracledbdoc5,
+    title={Oracle Database Concepts. Part III. Oracle Transaction Management. Ch.9. Data Concurrency and Consistency},
+    url={https://docs.oracle.com/en/database/oracle/oracle-database/19/cncpt/data-concurrency-and-consistency.html#GUID-E8CBA9C5-58E3-460F-A82A-850E0152E95C}
+}
+
+@online{oracledbreference,
+    title={Oracle SQL Language Reference},
+    url={https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/}
+}
+
+@online{WikiExploit,
+    author={Wikipedia},
+    title={Уязвимость (компьютерная безопасность)},
+    url={https://ru.wikipedia.org/wiki/Уязвимость_(компьютерная_безопасность)}
+}
+@online{KasperskyDailyOAuth,
+    title={Google OAuth и фантомные аккаунты},
+    url={https://www.kaspersky.ru/blog/vulnerability-in-google-oauth/36822/}
+}
+
+@book{ElmasriNavathe,
+    author    = {Ramez Elmasri, Shamkant B. Navathe},
+    title     = {{Fundamentals of Database Systems. 6th edition}},
+    publisher = {Addison-Wesley (Pearson)},
+    year      = 2010,
+    url = {https://asolanki.co.in/wp-content/uploads/2019/02/Fundamentals_of_Database_Systems_6th_Edition-1.pdf}
+}
+
+@book{Silberschatz,
+    author    = {Abraham Silberschatz, Henry F. Korth, S. Sudarshan},
+    title     = {{Database System Concepts. 7th edition}},
+    publisher = {McGrawHill},
+    year      = 2020,
+    url = {https://github.com/Moataz-Elmesmary/Data-Science-Roadmap/blob/main/Books/Abraham%20Silberschatz%2C%20Henry%20Korth%20and%20S.%20Sudarshan%20-%20Database%20System%20Concepts.%207-McGraw-Hill%20Education%20(2020).pdf}
+}
+
+@article{ASDViews,
+	title={ASDViews (relational databases)},
+	author={C. Garvey and A. Wu},
+	journal={Proceedings. 1988 IEEE Symposium on Security and Privacy},
+	year={1988},
+	publisher={IEEE}
+}
+
+@online{RT-SOLAR-conf,
+	title={Угрозы конфиденциальной информации},
+	year={2025},
+	publisher={RT-SOLAR},
+	url = {https://rt-solar.ru/products/solar_dozor/blog/3046/},
+	urldate = {2024-04-29}
+}
+
+@online{ Microsoft-TDE,
+	title={Transparent data encryption (TDE)},
+	year={2024},
+	publisher={Microsoft},
+	url = {https://learn.microsoft.com/en-us/sql/relational-databases/security/encryption/transparent-data-encryption?view=sql-server-ver16},
+	urldate = {2025-04-29}
+}
+
+@online{ Oracle-TDE,
+	title={Introduction to Transparent Data Encryption},
+	year={2025},
+	publisher={Oracle},
+	url = {https://docs.oracle.com/en/database/oracle/oracle-database/19/asoag/introduction-to-transparent-data-encryption.html#GUID-62AA9447-FDCD-4A4C-B563-32DE04D55952},
+	urldate = {2025-04-29}
+}
+
+@online{ IBM-CLE,
+	title={Column-level encryption},
+	year={2025},
+	publisher={IBM},
+	url = {https://www.ibm.com/docs/en/informix-servers/12.10.0?topic=data-column-level-encryption},
+	urldate = {2025-04-29}
+}
+
+@online{ CryptDB,
+	title={CryptDB: обработка информации в БД без её дешифрования},
+	year={2011},
+	url = {https://habr.com/ru/articles/134966/},
+	urldate = {2025-04-29}
+}
+
+@online{ MIT-CryptDB,
+	title={cryptdb},
+	year={2025},
+	url = {https://css.csail.mit.edu/cryptdb/},
+	urldate = {2025-04-29}
+}
+
+@online{ DB-ENC,
+	title={Data Encryption},
+	year={2025},
+	url = {https://www.imperva.com/learn/data-security/data-encryption/},
+	urldate = {2025-04-29}
+}
+
+@online{ SEE,
+	title={How To Compile And Use SEE},
+	year={2025},
+	url = {https://www.sqlite.org/see/doc/trunk/www/readme.wiki},
+	urldate = {2025-04-29}
+}
+
+@online{ SQLCipher-auth,
+	title={Security Design},
+	year={2025},
+	url = {https://www.zetetic.net/sqlcipher/design/},
+	urldate = {2025-04-29}
+}
+
+@article{ Sintra,
+	title={A practical approach to high assurance multilevel secure computing service},
+	author={J.N. Froscher and M. Kang and J.McDermott and O. Costich and C. E. Landwehr},
+	year={1995},
+	url = {https://www.researchgate.net/publication/3593873_A_practical_approach_to_high_assurance_multilevel_secure_computing_service},
+	urldate = {2025-04-29},
+	doi = {10.1109/CSAC.1994.367324}
+	
+}
+
+
+
+
+
