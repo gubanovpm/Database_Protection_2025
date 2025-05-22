@@ -64,8 +64,10 @@
 }
 
 @online{DDBMSIndusEdition,
+    author  = {{tutorialspoint}},
+    title   = {{Distributed DBMS - Distributed Databases}},
     url     = {https://www.tutorialspoint.com/distributed_dbms/distributed_dbms_databases.htm},
-    urldate = {2022-06-13}
+    urldate = {2025-03-15}
 }
 
 @online{bmstu,
@@ -77,8 +79,16 @@
 }
 
 @online{dce,
+    author  = {{IBM}},
+    title   = {{What is DCE?}},
     url     = {https://www.ibm.com/docs/en/cics-ts/5.3?topic=SSGMCP_5.3.0/com.ibm.cics.ts.doc/dfhtm/topics/dfhtm0a.html},
-    urldate = {2022-06-14}
+    urldate = {2025-03-15}
+}
+
+@online{Consensus,
+    title   = {{Кот Шрёдингера без коробки: проблема консенсуса в распределённых системах}},
+    url     = {https://habr.com/ru/companies/dododev/articles/463469/},
+    urldate = {2025-05-05}
 }
 
 @book{WebServices,
@@ -88,11 +98,79 @@
     isbn    = {978-3-662-10876-5}
 }
 
+@book{Tanenbaum,
+    author  = {Таненбаум Э. and Стеен М.},
+    title   = {Распределенные системы. Принципы и парадигмы},
+    year    = {2003},
+    isbn    = {5-272-00053-65-272-00053-6}
+}
+
+@article{Fischer1985,
+    author = {M. Fischer and N. Lynch and M. Paterson},
+    journal = {Journal of the ACM, vol. 32, no. 2},
+    year = {1985},
+    title = {Impossibility of Distributed Consensus with One Faulty Process},
+    pages = {374--382}
+}
+
+@article{Brewer2012,
+    author = {E. Brewer},
+    journal = {Computer, vol. 45, no. 2},
+    year = {2012},
+    title = {CAP Twelve Years Later: How the "Rules" Have Changed},
+    pages = {23--29}
+}
+
+@inproceedings{Castro1999,
+    author = {M. Castro and B. Liskov},
+    title = {Practical Byzantine Fault Tolerance},
+    booktitle = {Proceedings of the 3rd Symposium on Operating Systems Design and Implementation (OSDI'99)},
+    year = {1999},
+    pages = {173--186}
+}
+
+@book{Fix,
+    author  = {{С. Л. Бабичев, К. А. Коньков}},
+    title   = {Распределенные системы : учебник для вузов},
+    year    = {2019},
+    isbn    = {978-5-534-11380-8}
+}
+
 @online{infosec,
     author = {{В. Ю. Статьев, В.А. Тиньков}},
     title = {{Информационная безопасность распределенных информационных систем}},
     url = {http://emag.iis.ru/arc/infosoc/emag.nsf/BPA/9191949adeb83654c32575be0039f17c},
     urldate = {2020-04-20}
+}
+
+@online{TPM,
+    title = {{Architecture of an application system that uses a TP monitor}},
+    url = {https://web.archive.org/web/20161205210910/http://www.hypergurl.com/blog/databases/architecture-tp-monitor.html},
+    urldate = {2025-03-20}
+}
+
+@online{PBFT,
+    title = {{ResilientDB - PBFT Commit Algorithm}},
+    url = {https://blog.resilientdb.com/2021/08/21/PBFT_Commit.html},
+    urldate = {2025-03-31}
+}
+
+@book{BFT-2PC,
+    author  = {{Meng Yu, Peng Liu, Wanyu Zang}},
+    title   = {INTRUSION MASKING FOR DISTRIBUTED ATOMIC OPERATIONS},
+    url    = {https://link.springer.com/content/pdf/10.1007/978-0-387-35691-4_20.pdf}
+}
+
+@online{3PC,
+    title = {{Three Phase Commit Protocol}},
+    url = {https://www.geeksforgeeks.org/three-phase-commit-protocol/},
+    urldate = {2025-03-31}
+}
+
+@online{PoS_PoW,
+    title = {{Алгоритмы Proof of Work и Proof of Stake}},
+    url = {https://fin-plan.org/blog/algoritmy-proof-of-work-pow-i-proof-of-stake-pos},
+    urldate = {2025-04-7}
 }
 
 @online{PostrgreSQL,
@@ -848,7 +926,7 @@
 @online{4studClntSrv,
 	title = {{Компоненты сетевого приложения. Клиент-серверное взаимодействие и роли серверов.}},
 	url = {http://www.4stud.info/networking/lecture5.html},
-	urldate = {2024-06-12}
+	urldate = {2025-03-15}
 }
 
 @article{DistrDBThreats,
@@ -868,19 +946,19 @@
 @online{TransactionMonitors,
 	title = {{Системы управления базами данных — коротко о главном}},
 	url = {https://www.jetinfo.ru/sistemy-upravleniya-bazami-dannyh-korotko-o-glavnom-chast-3/},
-	urldate = {2024-06-12}
+	urldate = {2025-03-20}
 }
 
 @online{FixProtocols,
 	title = {{Распределенная СУБД — протоколы коммитов}},
 	url = {https://coderlessons.com/tutorials/akademicheskii/izuchite-raspredelennuiu-subd/raspredelennaia-subd-protokoly-kommitov},
-	urldate = {2024-06-12}
+	urldate = {2025-03-21}
 }
 
 @online{SecureFix,
 	title = {{Вопросы разграничения доступа к данным в СУБД}},
 	url = {https://koapp.narod.ru/tehlit/base/bd/dbms.htm},
-	urldate = {2024-06-12}
+	urldate = {2025-04-7}
 }
 
 @article{PhysLogPeplic,
@@ -1443,77 +1521,81 @@
 	publisher={IEEE}
 }
 
-@article{RajeshKumar,
-	author = {Siddharth Choudhary Rajesh, Dr. Ravinder Kumar},
-	journal = {International Journal of Research in all Subjects in Multi Languages},
-	year = {2025},
-	title = {{High Availability Strategies in Distributed Systems: A Practical Guide}},
-	url = {https://www.researchgate.net/publication/388075854_High_Availability_Strategies_in_Distributed_Systems_A_Practical_Guide}
+@online{RT-SOLAR-conf,
+	title={Угрозы конфиденциальной информации},
+	year={2025},
+	publisher={RT-SOLAR},
+	url = {https://rt-solar.ru/products/solar_dozor/blog/3046/},
+	urldate = {2024-04-29}
 }
 
-@online{SameerParadkar,
-    title={Designing for Uptime: A Framework for High Availability Systems},
-    url={https://medium.com/oolooroo/designing-for-uptime-a-framework-for-high-availability-systems-9d0caeb42397}
+@online{ Microsoft-TDE,
+	title={Transparent data encryption (TDE)},
+	year={2024},
+	publisher={Microsoft},
+	url = {https://learn.microsoft.com/en-us/sql/relational-databases/security/encryption/transparent-data-encryption?view=sql-server-ver16},
+	urldate = {2025-04-29}
 }
 
-@online{heycoachHAA,
-    title={High Availability Architectures},
-    url={https://blog.heycoach.in/high-availability-architectures/}
+@online{ Oracle-TDE,
+	title={Introduction to Transparent Data Encryption},
+	year={2025},
+	publisher={Oracle},
+	url = {https://docs.oracle.com/en/database/oracle/oracle-database/19/asoag/introduction-to-transparent-data-encryption.html#GUID-62AA9447-FDCD-4A4C-B563-32DE04D55952},
+	urldate = {2025-04-29}
 }
 
-@book{OszuValduriez,
-    author    = {M. Tamer Özsu, Patrick Valduriez},
-    title     = {{Principles of Distributed Database Systems, Third Edition}},
-    publisher = {Springer},
-    year      = 2010,
-    url = {https://cs.uwaterloo.ca/~tozsu/ddbook/}
+@online{ IBM-CLE,
+	title={Column-level encryption},
+	year={2025},
+	publisher={IBM},
+	url = {https://www.ibm.com/docs/en/informix-servers/12.10.0?topic=data-column-level-encryption},
+	urldate = {2025-04-29}
 }
 
-@book{Kleppmann,
-    author    = {Martin Kleppmann},
-    title     = {{Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems}},
-    publisher = {O'Reilly Media},
-    year      = 2017,
-    url = {https://archive.org/details/designing-data-intensive-applications-th/page/n5/mode/2up}
+@online{ CryptDB,
+	title={CryptDB: обработка информации в БД без её дешифрования},
+	year={2011},
+	url = {https://habr.com/ru/articles/134966/},
+	urldate = {2025-04-29}
 }
 
-@book{GarciaMolina,
-    author    = {Hector Garcia-Molina, Jeffrey D. Ullman, Jennifer Widom},
-    title     = {{Database Systems: The Complete Book. 2nd edition}},
-    publisher = {Pearson},
-    year      = 2008,
-    url = {https://people.inf.elte.hu/kiss/DB/ullman_the_complete_book.pdf}
+@online{ MIT-CryptDB,
+	title={cryptdb},
+	year={2025},
+	url = {https://css.csail.mit.edu/cryptdb/},
+	urldate = {2025-04-29}
 }
 
-@article{Afonin,
-	author = {Игорь Афонин},
-	year = {2014},
-	title = {{Решение для обеспечения постоянной доступности информационных систем}},
-	url = {https://www.cta.ru/articles/cta/obzory/tekhnologii/124642/}
+@online{ DB-ENC,
+	title={Data Encryption},
+	year={2025},
+	url = {https://www.imperva.com/learn/data-security/data-encryption/},
+	urldate = {2025-04-29}
 }
 
-@book{SnedakerS,
-    author    = {Susan Snedaker},
-    title     = {{Business Continuity and Disaster Recovery}},
-    publisher = {Syngress},
-    year      = 2007,
-    url = {https://archive.org/details/susan-snedaker-business-continuity-and-disaster-recovery-planning-for-it-professionals-syngress-2007}
+@online{ SEE,
+	title={How To Compile And Use SEE},
+	year={2025},
+	url = {https://www.sqlite.org/see/doc/trunk/www/readme.wiki},
+	urldate = {2025-04-29}
 }
 
-@article{RajeshBasa,
-	author = {Rajesh Basa},
-    journal = {International Journal for Multidisciplinary Research (IJFMR)},
-	year = {2024},
-	title = {{Cloud Disaster Recovery: Best Practices for Business Continuity in the Cloud}},
-	url = {https://www.ijfmr.com/papers/2024/5/28745.pdf}
+@online{ SQLCipher-auth,
+	title={Security Design},
+	year={2025},
+	url = {https://www.zetetic.net/sqlcipher/design/},
+	urldate = {2025-04-29}
 }
 
-@book{WallaceWebber,
-    author    = {Wallace M., Webber L},
-    title     = {{The Disaster Recovery Handbook}},
-    publisher = {AMACOM},
-    year      = 2018,
-    url = {https://www.yourhomeworksolutions.com/wp-content/uploads/edd/2021/05/The_disaster_recovery_handbook__a_step-by-step_plan_-_3rd_edition_4.pdf}
+@article{ Sintra,
+	title={A practical approach to high assurance multilevel secure computing service},
+	author={J.N. Froscher and M. Kang and J.McDermott and O. Costich and C. E. Landwehr},
+	year={1995},
+	url = {https://www.researchgate.net/publication/3593873_A_practical_approach_to_high_assurance_multilevel_secure_computing_service},
+	urldate = {2025-04-29},
+	doi = {10.1109/CSAC.1994.367324}
+	
 }
 
 @online{AmazonRds,
@@ -1545,27 +1627,7 @@
     url={https://www.red-gate.com/simple-talk/databases/oracle-databases/sql-developer-a-great-tool-and-better-ways-to-use-it/}
 }
 
-@online{AmazonRds2,
+@@online{AmazonRds2,
     title={Amazon RDS Multi-AZ},
     url={https://aws.amazon.com/rds/features/multi-az/}
-}
-
-@online{AvailMashtab,
-    title={Проектирование системы – горизонтальное и вертикальное масштабирование},
-    url={https://andreyex.ru/servera/proektirovanie-sistemy-gorizontalnoe-i-vertikalnoe-masshtabirovanie/?amp=1}
-}
-
-@online{StatefulSetsApps,
-    title={StatefulSets Applications in Kubernetes},
-    url={https://www.scaler.com/topics/kubernetes/kubernetes-statefulset/}
-}
-
-@online{AuroraAutoScaling,
-    title={Aurora Auto Scaling in AWS},
-    url={https://www.scaler.com/topics/aws/aurora-auto-scaling/}
-}
-
-@online{NginxDocs1,
-    title={Configuring Active-Active High Availability},
-    url={https://docs.nginx.com/nginx/admin-guide/high-availability/ha-keepalived-nodes/}
 }
